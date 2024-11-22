@@ -1,0 +1,8 @@
+.link {
+  display: flex;
+  border-radius: var(--common-border-radius);
+}
+
+.active {
+  color: white;
+}

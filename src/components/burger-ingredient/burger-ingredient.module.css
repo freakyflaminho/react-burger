@@ -1,0 +1,11 @@
+.ingredientCard {
+  width: 272px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredientCardText {
+  text-align: center;
+}

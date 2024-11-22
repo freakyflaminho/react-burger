@@ -1,0 +1,18 @@
+.scrollablePanel {
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-color: auto;
+}
+
+/* Custom scrollbar for Chrome, Edge, Safari and Opera */
+.scrollablePanel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollablePanel::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.scrollablePanel::-webkit-scrollbar-thumb {
+  background: #8585AD;
+}
