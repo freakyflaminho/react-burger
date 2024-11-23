@@ -1,11 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Tabs from '../tabs/tabs';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
-import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ingredientsPropType, selectedIngredientIdsPropType } from '../../utils/prop-types';
+import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
 
 const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
+  const [openedIngredient, setOpenedIngredient] = useState(null);
 
   const ingredientTypes = Object.keys(INGREDIENT_TYPE);
 
@@ -33,6 +36,10 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
     },
     [ingredients, selectedIngredientIds]);
 
+  const handleIngredientClick = ingredient => setOpenedIngredient(ingredient);
+
+  const closeIngredientModal = () => setOpenedIngredient(null);
+
   return (
     <section>
       <h1 className="text text_type_main-large pt-10 pb-5">
@@ -53,10 +60,16 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
             title={getTitleByType(type)}
             ingredients={getIngredientsByType(type)}
             selectedIngredients={getSelectedIngredientsByType(type)}
+            onIngredientClick={handleIngredientClick}
             refs={refs}
           />
         )}
       </ScrollablePanel>
+
+      {openedIngredient &&
+        <Modal onClose={closeIngredientModal} title="Детали ингредиента">
+          <IngredientDetails ingredient={openedIngredient} />
+        </Modal>}
     </section>
   );
 };

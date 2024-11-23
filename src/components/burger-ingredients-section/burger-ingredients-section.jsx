@@ -9,6 +9,7 @@ const BurgerIngredientsSection = ({
   title,
   ingredients,
   selectedIngredients,
+  onIngredientClick,
   refs,
 }) => {
   const countSelectedIngredientsById = useCallback(
@@ -24,14 +25,12 @@ const BurgerIngredientsSection = ({
       </h2>
 
       <ul className={`${styles.ingredientsSectionList} pl-4 pr-4`}>
-        {ingredients.map(({ _id, name, price, image }) =>
-          <li key={_id}>
+        {ingredients.map(ingredient =>
+          <li key={ingredient._id}>
             <BurgerIngredient
-              key={_id}
-              name={name}
-              price={price}
-              image={image}
-              selectedCount={countSelectedIngredientsById(_id)}
+              data={ingredient}
+              selectedCount={countSelectedIngredientsById(ingredient._id)}
+              onClick={onIngredientClick}
             />
           </li>
         )}
@@ -45,6 +44,7 @@ BurgerIngredientsSection.propTypes = {
   title: PropTypes.string.isRequired,
   ingredients: PropTypes.array.isRequired,
   selectedIngredients: PropTypes.array.isRequired,
+  onIngredientClick: PropTypes.func.isRequired,
   refs: tabRefsPropType,
 };
 
