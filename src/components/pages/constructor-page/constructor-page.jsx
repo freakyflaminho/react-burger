@@ -3,7 +3,7 @@ import BurgerConstructor from '../../burger-constructor/burger-constructor';
 import { ingredientsPropType, selectedIngredientIdsPropType } from '../../../utils/prop-types';
 import styles from './constructor-page.module.css';
 
-const ConstructorPage = ({ ingredients, selectedIngredientIds }) => {
+const ConstructorPage = ({ data: ingredients, selectedIngredientIds }) => {
   return (
     <main className={styles.page}>
       <BurgerIngredients
@@ -19,7 +19,7 @@ const ConstructorPage = ({ ingredients, selectedIngredientIds }) => {
 };
 
 ConstructorPage.propTypes = {
-  ingredients: ingredientsPropType,
+  data: ingredientsPropType,
   selectedIngredientIds: selectedIngredientIdsPropType,
 };
 
