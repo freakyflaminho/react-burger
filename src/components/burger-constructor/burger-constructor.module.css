@@ -1,0 +1,24 @@
+.constructor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: end;
+}
+
+.constructorList {
+  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summaryPriceIcon {
+  width: 36px;
+}
+
+.summaryBlock {
+  display: flex;
+  justify-content: end;
+  gap: 40px;
+  align-items: center;
+}

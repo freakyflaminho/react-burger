@@ -1,0 +1,9 @@
+.nutritionalValueList {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nutritionalValueList > li {
+  min-width: 100px;
+}

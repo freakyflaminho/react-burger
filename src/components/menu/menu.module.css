@@ -1,0 +1,19 @@
+.list {
+  width: 1280px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 2fr;
+  gap: 8px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  justify-content: center;
+}
+
+.listItemLast {
+  justify-content: end;
+}
