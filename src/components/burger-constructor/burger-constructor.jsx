@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerConstructorDraggableCard from '../burger-constructor-draggable-card/burger-constructor-draggable-card';
+import BlankConstructorElement from '../blank-constructor-element/blank-constructor-element';
 import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import { ingredientsPropType, selectedIngredientIdsPropType } from '../../utils/prop-types';
@@ -24,7 +25,7 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
     [ingredients, selectedIngredientIds.ingredients]);
 
   const totalPrice = useMemo(
-    () => selectedBun && selectedBun.price +
+    () => selectedBun?.price ?? 0 +
       selectedIngredients.reduce((acc, ingredient) => acc + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
@@ -34,7 +35,7 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
   return (
     <section>
       <div className={`${styles.constructor} ml-4 mt-25`}>
-        {selectedBun &&
+        {selectedBun ?
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -42,23 +43,29 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
             price={selectedBun.price}
             thumbnail={selectedBun.image}
             extraClass="mr-4"
-          />}
+          /> :
+          <BlankConstructorElement type="top" text="Выберите булки" />}
 
-        <ScrollablePanel>
-          <ul className={styles.constructorList}>
-            {selectedIngredients && selectedIngredients.map((selectedIngredient, index) =>
-              <li key={index}>
-                <BurgerConstructorDraggableCard
-                  text={selectedIngredient.name}
-                  price={selectedIngredient.price}
-                  image={selectedIngredient.image}
-                />
-              </li>
-            )}
-          </ul>
-        </ScrollablePanel>
+        <>
+          {selectedIngredients.length ?
+            <ScrollablePanel>
+              <ul className={styles.constructorList}>
+                {selectedIngredients.map((selectedIngredient, index) =>
+                  <li key={index}>
+                    <BurgerConstructorDraggableCard
+                      text={selectedIngredient.name}
+                      price={selectedIngredient.price}
+                      image={selectedIngredient.image}
+                    />
+                  </li>
+                )}
+              </ul>
+            </ScrollablePanel> :
+            <BlankConstructorElement text="Выберите начинку" />
+          }
+        </>
 
-        {selectedBun &&
+        {selectedBun ?
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -66,7 +73,8 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
             price={selectedBun.price}
             thumbnail={selectedBun.image}
             extraClass="mr-4"
-          />}
+          /> :
+          <BlankConstructorElement type="bottom" text="Выберите булки" />}
       </div>
 
       <div className={`${styles.summaryBlock} mt-10`}>

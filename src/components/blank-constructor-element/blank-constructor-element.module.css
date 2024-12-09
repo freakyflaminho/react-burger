@@ -1,0 +1,5 @@
+.blankConstructorElement {
+  composes: constructor-element mr-4 from global;
+  text-align: center;
+  align-content: center;
+}
