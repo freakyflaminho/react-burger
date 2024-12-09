@@ -1,35 +1,16 @@
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Loader from '../components/loader/loader';
 import ErrorMessage from '../components/error-message/error-message';
 
-const withDataLoading = getData => WrappedComponent => props => {
+const withDataLoading = useGetDataQuery => WrappedComponent => props => {
 
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  const loadData = () => {
-    setIsLoading(true);
-    getData()
-      .then(data => {
-        setData(data);
-        setIsError(false);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(loadData, []);
+  const { data: response = {}, isLoading, isFetching, isError, refetch } = useGetDataQuery();
+  const { success, ...data } = response;
 
   return (
-    isLoading ? <Loader /> :
-      isError ? <ErrorMessage onClick={loadData} /> :
-        <WrappedComponent {...props} data={data} />
+    isLoading || isFetching ? <Loader /> :
+      isError || !success ? <ErrorMessage onRetry={refetch} /> :
+        <WrappedComponent {...props} {...data} />
   );
 };
 
