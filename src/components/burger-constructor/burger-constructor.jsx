@@ -10,91 +10,90 @@ import styles from './burger-constructor.module.css';
 
 const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
 
-    const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
+  const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
 
-    const selectedBun = useMemo(
-      () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
-      [ingredients, selectedIngredientIds.bun]
-    );
+  const selectedBun = useMemo(
+    () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
+    [ingredients, selectedIngredientIds.bun]
+  );
 
-    const selectedIngredients = useMemo(
-      () => selectedIngredientIds.ingredients.map(
-        selectedId => ingredients.find(
-          ingredient => ingredient._id === selectedId)),
-      [ingredients, selectedIngredientIds.ingredients]);
+  const selectedIngredients = useMemo(
+    () => selectedIngredientIds.ingredients.map(
+      selectedId => ingredients.find(
+        ingredient => ingredient._id === selectedId)),
+    [ingredients, selectedIngredientIds.ingredients]);
 
-    const totalPrice = useMemo(
-      () => selectedBun && selectedBun.price +
-        selectedIngredients.reduce((acc, ingredient) => acc + ingredient.price, 0),
-      [selectedBun, selectedIngredients]);
+  const totalPrice = useMemo(
+    () => selectedBun && selectedBun.price +
+      selectedIngredients.reduce((acc, ingredient) => acc + ingredient.price, 0),
+    [selectedBun, selectedIngredients]);
 
-    const openOrderDetails = () => setOrderDetailsVisible(true);
-    const closeOrderDetails = () => setOrderDetailsVisible(false);
+  const openOrderDetails = () => setOrderDetailsVisible(true);
+  const closeOrderDetails = () => setOrderDetailsVisible(false);
 
-    return (
-      <section>
-        <div className={`${styles.constructor} ml-4 mt-25`}>
-          {selectedBun &&
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={`${selectedBun.name} (верх)`}
-              price={selectedBun.price}
-              thumbnail={selectedBun.image}
-              extraClass="mr-4"
-            />}
+  return (
+    <section>
+      <div className={`${styles.constructor} ml-4 mt-25`}>
+        {selectedBun &&
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${selectedBun.name} (верх)`}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
+            extraClass="mr-4"
+          />}
 
-          <ScrollablePanel>
-            <ul className={styles.constructorList}>
-              {selectedIngredients && selectedIngredients.map((selectedIngredient, index) =>
-                <li key={index}>
-                  <BurgerConstructorDraggableCard
-                    text={selectedIngredient.name}
-                    price={selectedIngredient.price}
-                    image={selectedIngredient.image}
-                  />
-                </li>
-              )}
-            </ul>
-          </ScrollablePanel>
+        <ScrollablePanel>
+          <ul className={styles.constructorList}>
+            {selectedIngredients && selectedIngredients.map((selectedIngredient, index) =>
+              <li key={index}>
+                <BurgerConstructorDraggableCard
+                  text={selectedIngredient.name}
+                  price={selectedIngredient.price}
+                  image={selectedIngredient.image}
+                />
+              </li>
+            )}
+          </ul>
+        </ScrollablePanel>
 
-          {selectedBun &&
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={`${selectedBun.name} (низ)`}
-              price={selectedBun.price}
-              thumbnail={selectedBun.image}
-              extraClass="mr-4"
-            />}
-        </div>
+        {selectedBun &&
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${selectedBun.name} (низ)`}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
+            extraClass="mr-4"
+          />}
+      </div>
 
-        <div className={`${styles.summaryBlock} mt-10`}>
-          <PriceBlock
-            price={totalPrice}
-            textClass="text_type_digits-medium"
-            iconClass={styles.summaryPriceIcon}
-          />
+      <div className={`${styles.summaryBlock} mt-10`}>
+        <PriceBlock
+          price={totalPrice}
+          textClass="text_type_digits-medium"
+          iconClass={styles.summaryPriceIcon}
+        />
 
-          <Button
-            htmlType="button"
-            type="primary"
-            size="large"
-            onClick={openOrderDetails}
-          >
-            Оформить заказ
-          </Button>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={openOrderDetails}
+        >
+          Оформить заказ
+        </Button>
 
-          {isOrderDetailsVisible &&
-            <Modal onClose={closeOrderDetails}>
-              <OrderDetails orderId="034536" />
-            </Modal>
-          }
-        </div>
-      </section>
-    );
-  }
-;
+        {isOrderDetailsVisible &&
+          <Modal onClose={closeOrderDetails}>
+            <OrderDetails orderId="034536" />
+          </Modal>
+        }
+      </div>
+    </section>
+  );
+};
 
 BurgerIngredients.propTypes = {
   ingredients: ingredientsPropType,
