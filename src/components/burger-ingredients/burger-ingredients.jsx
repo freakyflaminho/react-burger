@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Tabs from '../tabs/tabs';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
@@ -6,12 +7,18 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ingredientsPropType, selectedIngredientIdsPropType } from '../../utils/prop-types';
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
+import {
+  openIngredientDetails,
+  closeIngredientDetails,
+  ingredientDetailsSelector
+} from '../../services/ingredient-details';
 
 const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
   const ingredientTypes = Object.keys(INGREDIENT_TYPE);
 
-  const [openedIngredient, setOpenedIngredient] = useState(null);
   const [activeTab, setActiveTab] = useState(ingredientTypes[0]);
+  const ingredientDetails = useSelector(ingredientDetailsSelector);
+  const dispatch = useDispatch();
 
   const refs = ingredientTypes.reduce(
     (acc, current) => ({ ...acc, [current]: '' }), {});
@@ -37,9 +44,8 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
     },
     [ingredients, selectedIngredientIds]);
 
-  const handleIngredientClick = ingredient => setOpenedIngredient(ingredient);
-
-  const closeIngredientModal = () => setOpenedIngredient(null);
+  const handleIngredientClick = ingredient => dispatch(openIngredientDetails(ingredient));
+  const closeIngredientModal = () => dispatch(closeIngredientDetails());
 
   const handleScroll = e => {
     const containerPos = e.target.getBoundingClientRect().top;
@@ -86,9 +92,9 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
         )}
       </ScrollablePanel>
 
-      {openedIngredient &&
+      {ingredientDetails &&
         <Modal onClose={closeIngredientModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={openedIngredient} />
+          <IngredientDetails ingredient={ingredientDetails} />
         </Modal>}
     </section>
   );
