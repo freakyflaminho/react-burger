@@ -1,14 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { burgerIngredientsApi } from './burger-ingredients';
-import { burgerConstructorSlice } from './burger-constructor';
-import { ingredientDetailsSlice } from './ingredient-details';
+import { rootReducer } from './root-reducer';
+import { customMiddlewares } from './custom-middleware';
 
 export default configureStore({
-  reducer: {
-    [burgerIngredientsApi.reducerPath]: burgerIngredientsApi.reducer,
-    [burgerConstructorSlice.reducerPath]: burgerConstructorSlice.reducer,
-    [ingredientDetailsSlice.reducerPath]: ingredientDetailsSlice.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(burgerIngredientsApi.middleware),
+    getDefaultMiddleware().concat(customMiddlewares),
 });
