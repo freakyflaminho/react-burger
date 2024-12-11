@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerConstructorDraggableCard from '../burger-constructor-draggable-card/burger-constructor-draggable-card';
@@ -6,14 +8,17 @@ import BlankConstructorElement from '../blank-constructor-element/blank-construc
 import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { selectedIngredientIdsPropType } from '../../utils/prop-types';
+
 import { useGetIngredientsQuery } from '../../services/burger-ingredients';
+import { selectedIngredientsSelector } from '../../services/burger-constructor';
+
 import styles from './burger-constructor.module.css';
 
-const BurgerIngredients = ({ selectedIngredientIds }) => {
+const BurgerIngredients = () => {
 
   const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
   const { data: { data: ingredients } } = useGetIngredientsQuery();
+  const selectedIngredientIds = useSelector(selectedIngredientsSelector);
 
   const selectedBun = useMemo(
     () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
@@ -103,10 +108,6 @@ const BurgerIngredients = ({ selectedIngredientIds }) => {
       </div>
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  selectedIngredientIds: selectedIngredientIdsPropType,
 };
 
 export default BurgerIngredients;
