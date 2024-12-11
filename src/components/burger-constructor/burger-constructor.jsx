@@ -30,8 +30,10 @@ const BurgerIngredients = () => {
 
   const selectedIngredients = useMemo(
     () => selectedIngredientIds.ingredients.map(
-      selected => ingredients.find(
-        ingredient => ingredient._id === selected.id)),
+      selected => {
+        const ingredient = ingredients.find(ingredient => ingredient._id === selected.id);
+        return { ...ingredient, posId: selected.posId };
+      }),
     [ingredients, selectedIngredientIds.ingredients]);
 
   const totalPrice = useMemo(
@@ -81,8 +83,10 @@ const BurgerIngredients = () => {
             <ScrollablePanel>
               <ul className={styles.constructorList}>
                 {selectedIngredients.map((selectedIngredient, index) =>
-                  <li key={index}>
+                  <li key={selectedIngredient.posId}>
                     <BurgerConstructorDraggableCard
+                      id={selectedIngredient.posId}
+                      index={index}
                       text={selectedIngredient.name}
                       price={selectedIngredient.price}
                       image={selectedIngredient.image}

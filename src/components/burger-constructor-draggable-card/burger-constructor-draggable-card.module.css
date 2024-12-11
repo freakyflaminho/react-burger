@@ -1,8 +1,9 @@
 .draggableCard {
   display: flex;
   gap: 8px;
+  cursor: grab;
 }
 
-.draggableIcon {
-  cursor: grab;
+.transparent {
+  opacity: 0;
 }

@@ -16,10 +16,20 @@ export const burgerConstructorSlice = createSlice({
       reducer: (state, action) => {
         state.ingredients.push(action.payload);
       },
-      prepare: (id) => {
-        const posId = nanoid();
-        return { payload: { id, posId } };
-      }
+      prepare: (id) => ({
+        payload: { id, posId: nanoid() }
+      }),
+    },
+    changeIngredientPosition: {
+      reducer: (state, action) => {
+        state.ingredients.splice(
+          action.payload.next,
+          0,
+          state.ingredients.splice(action.payload.prev, 1)[0]);
+      },
+      prepare: (prev, next) => ({
+        payload: { prev, next }
+      }),
     },
   },
   selectors: {
@@ -30,6 +40,7 @@ export const burgerConstructorSlice = createSlice({
 export const {
   addBun,
   addIngredient,
+  changeIngredientPosition,
 } = burgerConstructorSlice.actions;
 
 export const {
