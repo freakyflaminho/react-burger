@@ -4,13 +4,11 @@ import ErrorMessage from '../components/error-message/error-message';
 
 const withDataLoading = useGetDataQuery => WrappedComponent => props => {
 
-  const { data: response = {}, isLoading, isFetching, isError, refetch } = useGetDataQuery();
-  const { success, ...data } = response;
-
+  const { data: { success } = {}, isLoading, isFetching, isError, refetch } = useGetDataQuery();
   return (
     isLoading || isFetching ? <Loader /> :
       isError || !success ? <ErrorMessage onRetry={refetch} /> :
-        <WrappedComponent {...props} {...data} />
+        <WrappedComponent {...props} />
   );
 };
 

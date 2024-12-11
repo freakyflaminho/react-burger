@@ -5,20 +5,22 @@ import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ingredientsPropType, selectedIngredientIdsPropType } from '../../utils/prop-types';
+import { selectedIngredientIdsPropType } from '../../utils/prop-types';
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
 import {
-  openIngredientDetails,
   closeIngredientDetails,
-  ingredientDetailsSelector
+  ingredientDetailsSelector,
+  openIngredientDetails
 } from '../../services/ingredient-details';
+import { useGetIngredientsQuery } from '../../services/burger-ingredients';
 
-const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
+const BurgerIngredients = ({ selectedIngredientIds }) => {
   const ingredientTypes = Object.keys(INGREDIENT_TYPE);
 
   const [activeTab, setActiveTab] = useState(ingredientTypes[0]);
   const ingredientDetails = useSelector(ingredientDetailsSelector);
   const dispatch = useDispatch();
+  const { data: { data: ingredients } } = useGetIngredientsQuery();
 
   const refs = ingredientTypes.reduce(
     (acc, current) => ({ ...acc, [current]: '' }), {});
@@ -101,7 +103,6 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: ingredientsPropType,
   selectedIngredientIds: selectedIngredientIdsPropType,
 };
 

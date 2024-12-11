@@ -5,13 +5,15 @@ import BurgerConstructorDraggableCard from '../burger-constructor-draggable-card
 import BlankConstructorElement from '../blank-constructor-element/blank-constructor-element';
 import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
-import { ingredientsPropType, selectedIngredientIdsPropType } from '../../utils/prop-types';
 import OrderDetails from '../order-details/order-details';
+import { selectedIngredientIdsPropType } from '../../utils/prop-types';
+import { useGetIngredientsQuery } from '../../services/burger-ingredients';
 import styles from './burger-constructor.module.css';
 
-const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
+const BurgerIngredients = ({ selectedIngredientIds }) => {
 
   const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
+  const { data: { data: ingredients } } = useGetIngredientsQuery();
 
   const selectedBun = useMemo(
     () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
@@ -26,7 +28,7 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
 
   const totalPrice = useMemo(
     () => selectedBun?.price ?? 0 +
-      selectedIngredients.reduce((acc, ingredient) => acc + ingredient.price, 0),
+      selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
   const openOrderDetails = () => setOrderDetailsVisible(true);
@@ -104,7 +106,6 @@ const BurgerIngredients = ({ ingredients, selectedIngredientIds }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: ingredientsPropType,
   selectedIngredientIds: selectedIngredientIdsPropType,
 };
 
