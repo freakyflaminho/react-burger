@@ -32,7 +32,7 @@ const BurgerIngredients = () => {
     [ingredients, selectedIngredientIds.ingredients]);
 
   const totalPrice = useMemo(
-    () => selectedBun?.price ?? 0 +
+    () => (selectedBun?.price ?? 0) * 2 +
       selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
