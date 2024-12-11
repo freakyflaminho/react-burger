@@ -20,6 +20,9 @@ export const burgerConstructorSlice = createSlice({
         payload: { id, posId: nanoid() }
       }),
     },
+    removeIngredient: (state, action) => {
+      state.ingredients.splice(action.payload, 1);
+    },
     changeIngredientPosition: {
       reducer: (state, action) => {
         state.ingredients.splice(
@@ -40,6 +43,7 @@ export const burgerConstructorSlice = createSlice({
 export const {
   addBun,
   addIngredient,
+  removeIngredient,
   changeIngredientPosition,
 } = burgerConstructorSlice.actions;
 

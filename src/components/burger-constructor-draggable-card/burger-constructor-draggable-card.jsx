@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { changeIngredientPosition, removeIngredient } from '../../services/burger-constructor';
+
 import styles from './burger-constructor-draggable-card.module.css';
-import { changeIngredientPosition } from '../../services/burger-constructor';
 
 const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraClass }) => {
 
@@ -59,6 +60,10 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
 
   dragRef(dropRef(ref));
 
+  const handleRemove = () => {
+    dispatch(removeIngredient(index));
+  };
+
   return (
     <div className={`${styles.draggableCard} ${isDragging && styles.transparent}`} ref={ref}>
       <DragIcon type="primary" />
@@ -67,6 +72,7 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
         price={price}
         thumbnail={image}
         extraClass={`${extraClass} mr-2`}
+        handleClose={handleRemove}
       />
     </div>
   );
