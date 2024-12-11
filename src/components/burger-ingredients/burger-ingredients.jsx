@@ -42,10 +42,10 @@ const BurgerIngredients = () => {
     type => {
       const value = INGREDIENT_TYPE[type];
       return value === INGREDIENT_TYPE.BUN
-        ? [selectedIngredientIds[value]]
+        ? [{ id: selectedIngredientIds[value] }]
         : selectedIngredientIds.ingredients.filter(
-          selectedIngredientId => ingredients.find(
-            ingredient => ingredient.type === value && ingredient._id === selectedIngredientId));
+          selected => ingredients.find(
+            ingredient => ingredient.type === value && ingredient._id === selected.id));
     },
     [ingredients, selectedIngredientIds]);
 

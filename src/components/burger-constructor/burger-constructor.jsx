@@ -30,8 +30,8 @@ const BurgerIngredients = () => {
 
   const selectedIngredients = useMemo(
     () => selectedIngredientIds.ingredients.map(
-      selectedId => ingredients.find(
-        ingredient => ingredient._id === selectedId)),
+      selected => ingredients.find(
+        ingredient => ingredient._id === selected.id)),
     [ingredients, selectedIngredientIds.ingredients]);
 
   const totalPrice = useMemo(

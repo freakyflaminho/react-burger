@@ -16,7 +16,7 @@ const BurgerIngredientsSection = ({
 }) => {
   const countSelectedIngredientsById = useCallback(
     (id, type) => {
-      const selectedCount = selectedIngredients.filter(selectedId => selectedId === id).length;
+      const selectedCount = selectedIngredients.filter(selected => selected.id === id).length;
       return type === INGREDIENT_TYPE.BUN ? selectedCount * 2 : selectedCount;
     },
     [selectedIngredients]
