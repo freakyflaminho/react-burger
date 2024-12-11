@@ -8,11 +8,23 @@ const initialState = {
 export const burgerConstructorSlice = createSlice({
   name: 'selectedIngredients',
   initialState,
-  reducers: {},
+  reducers: {
+    addBun: (state, action) => {
+      state.bun = action.payload;
+    },
+    addIngredient: (state, action) => {
+      state.ingredients.push(action.payload);
+    },
+  },
   selectors: {
     selectedIngredientsSelector: (state) => state,
   },
 });
+
+export const {
+  addBun,
+  addIngredient,
+} = burgerConstructorSlice.actions;
 
 export const {
   selectedIngredientsSelector,

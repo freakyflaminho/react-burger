@@ -12,7 +12,10 @@ const BurgerIngredient = ({ data, selectedCount, onClick }) => {
 
   const [{ isDrag }, dragRef] = useDrag({
     type: 'ingredient',
-    item: data.id,
+    item: {
+      id: data._id,
+      type: data.type,
+    },
     collect: monitor => ({
       isDrag: monitor.isDragging(),
     })

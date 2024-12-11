@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,12 +11,14 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
 import { useGetIngredientsQuery } from '../../services/burger-ingredients';
-import { selectedIngredientsSelector } from '../../services/burger-constructor';
+import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/burger-constructor';
 
+import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-constructor.module.css';
 
 const BurgerIngredients = () => {
 
+  const dispatch = useDispatch();
   const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
   const { data: { data: ingredients } } = useGetIngredientsQuery();
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
@@ -42,8 +44,10 @@ const BurgerIngredients = () => {
 
   const [{ isHover, canDrop }, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(itemId) {
-      alert('ingredient was added');
+    drop(ingredient) {
+      ingredient.type === INGREDIENT_TYPE.BUN ?
+        dispatch(addBun(ingredient.id)) :
+        dispatch(addIngredient(ingredient.id));
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
@@ -51,7 +55,7 @@ const BurgerIngredients = () => {
     })
   });
 
-  const dropClass = canDrop && styles.hover;
+  const dropClass = canDrop ? styles.hover : undefined;
 
   return (
     <section>
@@ -65,7 +69,12 @@ const BurgerIngredients = () => {
             thumbnail={selectedBun.image}
             extraClass={`${dropClass} mr-4`}
           /> :
-          <BlankConstructorElement type="top" text="Выберите булки" extraClass={dropClass} />}
+          <BlankConstructorElement
+            type="top"
+            text="Выберите булки"
+            extraClass={dropClass}
+          />
+        }
 
         <>
           {selectedIngredients.length ?
@@ -96,7 +105,11 @@ const BurgerIngredients = () => {
             thumbnail={selectedBun.image}
             extraClass={`${dropClass} mr-4`}
           /> :
-          <BlankConstructorElement type="bottom" text="Выберите булки" extraClass={dropClass} />}
+          <BlankConstructorElement
+            type="bottom"
+            text="Выберите булки"
+            extraClass={dropClass} />
+        }
       </div>
 
       <div className={`${styles.summaryBlock} mt-10`}>
