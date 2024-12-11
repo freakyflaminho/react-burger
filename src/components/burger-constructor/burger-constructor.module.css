@@ -23,3 +23,17 @@
   gap: 40px;
   align-items: center;
 }
+
+.hover {
+  animation: glow 1s ease-out infinite alternate;
+  background-color: transparent;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, .1);
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(0, 255, 255, .8);
+  }
+}

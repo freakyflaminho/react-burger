@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
@@ -39,9 +40,22 @@ const BurgerIngredients = () => {
   const openOrderDetails = () => setOrderDetailsVisible(true);
   const closeOrderDetails = () => setOrderDetailsVisible(false);
 
+  const [{ isHover, canDrop }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(itemId) {
+      alert('ingredient was added');
+    },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    })
+  });
+
+  const dropClass = canDrop && styles.hover;
+
   return (
     <section>
-      <div className={`${styles.constructor} ml-4 mt-25`}>
+      <div className={`${styles.constructor} ml-4 mt-25`} ref={dropTarget}>
         {selectedBun ?
           <ConstructorElement
             type="top"
@@ -49,9 +63,9 @@ const BurgerIngredients = () => {
             text={`${selectedBun.name} (верх)`}
             price={selectedBun.price}
             thumbnail={selectedBun.image}
-            extraClass="mr-4"
+            extraClass={`${dropClass} mr-4`}
           /> :
-          <BlankConstructorElement type="top" text="Выберите булки" />}
+          <BlankConstructorElement type="top" text="Выберите булки" extraClass={dropClass} />}
 
         <>
           {selectedIngredients.length ?
@@ -63,12 +77,13 @@ const BurgerIngredients = () => {
                       text={selectedIngredient.name}
                       price={selectedIngredient.price}
                       image={selectedIngredient.image}
+                      extraClass={dropClass}
                     />
                   </li>
                 )}
               </ul>
             </ScrollablePanel> :
-            <BlankConstructorElement text="Выберите начинку" />
+            <BlankConstructorElement text="Выберите начинку" extraClass={dropClass} />
           }
         </>
 
@@ -79,9 +94,9 @@ const BurgerIngredients = () => {
             text={`${selectedBun.name} (низ)`}
             price={selectedBun.price}
             thumbnail={selectedBun.image}
-            extraClass="mr-4"
+            extraClass={`${dropClass} mr-4`}
           /> :
-          <BlankConstructorElement type="bottom" text="Выберите булки" />}
+          <BlankConstructorElement type="bottom" text="Выберите булки" extraClass={dropClass} />}
       </div>
 
       <div className={`${styles.summaryBlock} mt-10`}>
