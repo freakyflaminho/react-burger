@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const DEFAULT_ERROR_MESSAGE = 'Ошибка загрузки данных...';
 
-const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onClick }) => {
+const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onRetry }) => {
   return (
     <div className={styles.error}>
       <p className="text text_type_main-medium">
@@ -14,7 +14,7 @@ const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onClick }) => {
         htmlType="button"
         type="primary"
         size="large"
-        onClick={onClick}
+        onClick={onRetry}
       >
         Попробовать ещё раз
       </Button>
@@ -24,7 +24,7 @@ const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onClick }) => {
 
 ErrorMessage.propTypes = {
   text: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onRetry: PropTypes.func.isRequired,
 };
 
 export default ErrorMessage;

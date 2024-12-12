@@ -9,3 +9,7 @@
 .ingredientCardText {
   text-align: center;
 }
+
+.drag {
+  opacity: 0.3;
+}

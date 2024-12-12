@@ -1,26 +1,19 @@
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../burger-constructor/burger-constructor';
-import { ingredientsPropType, selectedIngredientIdsPropType } from '../../../utils/prop-types';
+
 import styles from './constructor-page.module.css';
 
-const ConstructorPage = ({ data: ingredients, selectedIngredientIds }) => {
+const ConstructorPage = () => {
   return (
-    <main className={styles.page}>
-      <BurgerIngredients
-        ingredients={ingredients}
-        selectedIngredientIds={selectedIngredientIds}
-      />
-      <BurgerConstructor
-        ingredients={ingredients}
-        selectedIngredientIds={selectedIngredientIds}
-      />
-    </main>
+    <DndProvider backend={HTML5Backend}>
+      <main className={styles.page}>
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </main>
+    </DndProvider>
   );
-};
-
-ConstructorPage.propTypes = {
-  data: ingredientsPropType,
-  selectedIngredientIds: selectedIngredientIdsPropType,
 };
 
 export default ConstructorPage;

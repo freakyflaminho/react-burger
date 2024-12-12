@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import { tabRefsPropType } from '../../utils/prop-types';
+
+import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-ingredients-section.module.css';
 
 const BurgerIngredientsSection = ({
@@ -13,7 +15,10 @@ const BurgerIngredientsSection = ({
   refs,
 }) => {
   const countSelectedIngredientsById = useCallback(
-    id => selectedIngredients.filter(selectedId => selectedId === id).length,
+    (id, type) => {
+      const selectedCount = selectedIngredients.filter(selected => selected.id === id).length;
+      return type === INGREDIENT_TYPE.BUN ? selectedCount * 2 : selectedCount;
+    },
     [selectedIngredients]
   );
 
@@ -29,7 +34,7 @@ const BurgerIngredientsSection = ({
           <li key={ingredient._id}>
             <BurgerIngredient
               data={ingredient}
-              selectedCount={countSelectedIngredientsById(ingredient._id)}
+              selectedCount={countSelectedIngredientsById(ingredient._id, ingredient.type)}
               onClick={onIngredientClick}
             />
           </li>
