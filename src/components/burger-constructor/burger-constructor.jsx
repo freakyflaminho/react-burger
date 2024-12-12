@@ -86,7 +86,7 @@ const BurgerIngredients = () => {
             text={`${selectedBun.name} (верх)`}
             price={selectedBun.price}
             thumbnail={selectedBun.image}
-            extraClass={`${dropClass} mr-4`}
+            extraClass={dropClass}
           /> :
           <BlankConstructorElement
             type="top"
@@ -97,7 +97,7 @@ const BurgerIngredients = () => {
 
         <>
           {selectedIngredients.length ?
-            <ScrollablePanel>
+            <ScrollablePanel extraClass={styles.scrollablePanelPosition}>
               <ul className={styles.constructorList}>
                 {selectedIngredients.map((selectedIngredient, index) =>
                   <li key={selectedIngredient.posId}>
@@ -124,7 +124,7 @@ const BurgerIngredients = () => {
             text={`${selectedBun.name} (низ)`}
             price={selectedBun.price}
             thumbnail={selectedBun.image}
-            extraClass={`${dropClass} mr-4`}
+            extraClass={dropClass}
           /> :
           <BlankConstructorElement
             type="bottom"

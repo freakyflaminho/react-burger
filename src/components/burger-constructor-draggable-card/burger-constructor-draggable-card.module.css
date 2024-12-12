@@ -7,3 +7,7 @@
 .transparent {
   opacity: 0;
 }
+
+.centerContent {
+  align-content: center;
+}

@@ -71,7 +71,7 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
         text={text}
         price={price}
         thumbnail={image}
-        extraClass={`${extraClass} mr-2`}
+        extraClass={`${styles.centerContent} ${extraClass}`}
         handleClose={handleRemove}
       />
     </div>
