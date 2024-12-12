@@ -12,6 +12,7 @@ import OrderDetails from '../order-details/order-details';
 
 import { useGetIngredientsQuery } from '../../services/burger-ingredients';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/burger-constructor';
+import { useCreateOrderMutation } from '../../services/order';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-constructor.module.css';
@@ -20,8 +21,9 @@ const BurgerIngredients = () => {
 
   const dispatch = useDispatch();
   const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
-  const { data: { data: ingredients } } = useGetIngredientsQuery();
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
+  const { data: { data: ingredients } } = useGetIngredientsQuery();
+  const [createOrder, order] = useCreateOrderMutation();
 
   const selectedBun = useMemo(
     () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
@@ -41,8 +43,23 @@ const BurgerIngredients = () => {
       selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
-  const openOrderDetails = () => setOrderDetailsVisible(true);
-  const closeOrderDetails = () => setOrderDetailsVisible(false);
+  const isOrderAvailable = useMemo(
+    () => selectedBun && selectedIngredients.length,
+    [selectedBun, selectedIngredients]);
+
+  const openOrderDetails = () => {
+    const ids = [
+      ...selectedIngredientIds.ingredients.map(selected => selected.id),
+      selectedIngredientIds.bun
+    ];
+    setOrderDetailsVisible(true);
+    createOrder(ids);
+  };
+
+  const closeOrderDetails = () => {
+    setOrderDetailsVisible(false);
+    order.reset();
+  };
 
   const [{ isHover, canDrop }, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -128,13 +145,14 @@ const BurgerIngredients = () => {
           type="primary"
           size="large"
           onClick={openOrderDetails}
+          disabled={!isOrderAvailable}
         >
           Оформить заказ
         </Button>
 
-        {isOrderDetailsVisible &&
+        {order?.data?.order &&
           <Modal onClose={closeOrderDetails}>
-            <OrderDetails orderId="034536" />
+            <OrderDetails orderId={order?.data?.order.number} />
           </Modal>
         }
       </div>
