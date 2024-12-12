@@ -3,6 +3,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../burger-constructor/burger-constructor';
 
+import withDataLoading from '../../../hocs/with-data-loading';
+import { useGetIngredientsQuery } from '../../../services/burger-ingredients';
+
 import styles from './constructor-page.module.css';
 
 const ConstructorPage = () => {
@@ -16,4 +19,4 @@ const ConstructorPage = () => {
   );
 };
 
-export default ConstructorPage;
+export default withDataLoading(useGetIngredientsQuery)(ConstructorPage);
