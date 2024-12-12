@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 
@@ -16,14 +16,14 @@ import { useCreateOrderMutation } from '../../services/order';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-constructor.module.css';
+import withDataLoading from '../../hocs/with-data-loading';
 
-const BurgerIngredients = () => {
+const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
-  const [isOrderDetailsVisible, setOrderDetailsVisible] = useState(false);
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
   const { data: { data: ingredients } } = useGetIngredientsQuery();
-  const [createOrder, order] = useCreateOrderMutation();
+  const [useCreateOrderQuery, order] = useCreateOrderMutation();
 
   const selectedBun = useMemo(
     () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
@@ -47,17 +47,15 @@ const BurgerIngredients = () => {
     () => selectedBun && selectedIngredients.length,
     [selectedBun, selectedIngredients]);
 
-  const openOrderDetails = () => {
+  const createOrder = () => {
     const ids = [
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
       selectedIngredientIds.bun
     ];
-    setOrderDetailsVisible(true);
-    createOrder(ids);
+    useCreateOrderQuery(ids);
   };
 
   const closeOrderDetails = () => {
-    setOrderDetailsVisible(false);
     order.reset();
   };
 
@@ -75,6 +73,9 @@ const BurgerIngredients = () => {
   });
 
   const dropClass = canDrop ? styles.hover : undefined;
+
+  const WithDataLoadingOrderDetails = withDataLoading(order, createOrder)(OrderDetails);
+  const orderId = order?.data?.order?.number;
 
   return (
     <section>
@@ -144,15 +145,15 @@ const BurgerIngredients = () => {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={openOrderDetails}
+          onClick={createOrder}
           disabled={!isOrderAvailable}
         >
           Оформить заказ
         </Button>
 
-        {order?.data?.order &&
+        {!order.isUninitialized &&
           <Modal onClose={closeOrderDetails}>
-            <OrderDetails orderId={order?.data?.order.number} />
+            <WithDataLoadingOrderDetails orderId={orderId} />
           </Modal>
         }
       </div>
@@ -160,4 +161,4 @@ const BurgerIngredients = () => {
   );
 };
 
-export default BurgerIngredients;
+export default BurgerConstructor;

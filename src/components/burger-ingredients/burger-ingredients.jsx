@@ -8,19 +8,19 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
-import { useGetIngredientsQuery } from '../../services/burger-ingredients';
+import { useGetIngredientsState } from '../../services/burger-ingredients';
 import { selectedIngredientsSelector } from '../../services/burger-constructor';
 import {
   closeIngredientDetails,
   ingredientDetailsSelector,
-  openIngredientDetails
+  openIngredientDetails,
 } from '../../services/ingredient-details';
 
 const BurgerIngredients = () => {
   const ingredientTypes = Object.keys(INGREDIENT_TYPE);
 
   const [activeTab, setActiveTab] = useState(ingredientTypes[0]);
-  const { data: { data: ingredients } } = useGetIngredientsQuery();
+  const { data: { data: ingredients } } = useGetIngredientsState();
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
   const ingredientDetails = useSelector(ingredientDetailsSelector);
   const dispatch = useDispatch();

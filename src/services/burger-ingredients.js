@@ -14,3 +14,4 @@ export const burgerIngredientsApi = createApi({
 });
 
 export const { useGetIngredientsQuery } = burgerIngredientsApi;
+export const useGetIngredientsState = burgerIngredientsApi.endpoints.getIngredients.useQueryState;
