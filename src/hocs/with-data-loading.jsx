@@ -1,41 +1,31 @@
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Loader from '../components/loader/loader';
 import ErrorMessage from '../components/error-message/error-message';
 
-const withDataLoading = getData => WrappedComponent => props => {
-
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  const loadData = () => {
-    setIsLoading(true);
-    getData()
-      .then(data => {
-        setData(data);
-        setIsError(false);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(loadData, []);
-
+const withDataLoading = ({
+    data: { success } = {},
+    isLoading,
+    isFetching,
+    isError,
+  },
+  onRetry
+) => WrappedComponent => props => {
   return (
-    isLoading ? <Loader /> :
-      isError ? <ErrorMessage onClick={loadData} /> :
-        <WrappedComponent {...props} data={data} />
+    isLoading || isFetching ? <Loader /> :
+      isError || !success ? <ErrorMessage onRetry={onRetry} /> :
+        <WrappedComponent {...props} />
   );
 };
 
 withDataLoading.propTypes = {
-  getData: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    success: PropTypes.bool.isRequired,
+  }),
+  isLoading: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
   WrappedComponent: PropTypes.func.isRequired,
+  onRetry: PropTypes.func,
 };
 
 export default withDataLoading;
