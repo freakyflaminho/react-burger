@@ -15,7 +15,7 @@ const ForgotPasswordPage = () => {
 
   useEffect(() => {
     if (isSuccess && user?.success) {
-      navigate('/reset-password');
+      navigate('/reset-password', { state: {isRedirected: true}});
     }
   });
 

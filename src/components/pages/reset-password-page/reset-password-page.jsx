@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Navigate, useLocation, useNavigate } from 'react-router';
 
 import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
@@ -11,6 +11,7 @@ const ResetPasswordPage = () => {
 
   const [form, setValue] = useState({ password: '', token: '' });
   const navigate = useNavigate();
+  const location = useLocation();
   const [
     changePassword,
     {
@@ -23,7 +24,7 @@ const ResetPasswordPage = () => {
 
   useEffect(() => {
     if (isSuccess && user?.success) {
-      navigate('/login');
+      navigate('/login', { replace: true });
     }
   });
 
@@ -44,6 +45,10 @@ const ResetPasswordPage = () => {
       },
     },
   ];
+
+  if (!location.state?.isRedirected) {
+    return <Navigate to="/forgot-password" />;
+  }
 
   return (
     <CustomForm
