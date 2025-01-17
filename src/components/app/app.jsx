@@ -1,12 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 import AppHeader from '../app-header/app-header';
 import ConstructorPage from '../pages/constructor-page/constructor-page';
+import LoginPage from '../pages/login-page/login-page';
+import RegisterPage from '../pages/register-page/register-page';
 
-import styles from './app.module.css';
 import withDataLoading from '../../hocs/with-data-loading';
 import { useGetIngredientsQuery } from '../../services/burger-ingredients';
-import LoginPage from '../pages/login-page/login-page';
+
+import styles from './app.module.css';
 
 const App = () => {
   const data = useGetIngredientsQuery();
@@ -19,6 +21,7 @@ const App = () => {
         <Routes>
           <Route index element={<WithDataLoadingConstructorPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
     </div>

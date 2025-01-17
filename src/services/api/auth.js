@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, LOGIN_PATH } from '../../utils/api';
+import { BASE_URL, LOGIN_PATH, REGISTER_PATH } from '../../utils/api';
 
 const initialState = null;
 
@@ -17,7 +17,17 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+    register: builder.mutation({
+      query: (user) => ({
+        url: REGISTER_PATH,
+        method: 'POST',
+        body: user,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+} = authApi;
