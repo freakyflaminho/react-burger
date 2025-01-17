@@ -1,7 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getAccessToken } from '../../utils/localstorage-utils';
 
-import { BASE_URL, LOGIN_PATH, PASSWORD_RESET_PATH, REGISTER_PATH, USER_PATH } from '../../utils/api';
+import {
+  BASE_URL,
+  LOGIN_PATH,
+  PASSWORD_CHANGE_PATH,
+  PASSWORD_RESET_PATH,
+  REGISTER_PATH,
+  USER_PATH
+} from '../../utils/api';
 
 const initialState = null;
 
@@ -41,6 +48,13 @@ export const authApi = createApi({
         body: email,
       }),
     }),
+    changePassword: builder.mutation({
+      query: (passwordChangeData) => ({
+        url: PASSWORD_CHANGE_PATH,
+        method: 'POST',
+        body: passwordChangeData,
+      }),
+    }),
   }),
 });
 
@@ -48,5 +62,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useResetPasswordMutation,
+  useChangePasswordMutation,
   useGetUserQuery,
 } = authApi;

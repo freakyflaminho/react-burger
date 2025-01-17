@@ -8,3 +8,4 @@ export const REGISTER_PATH = '/auth/register';
 export const USER_PATH = '/auth/user';
 
 export const PASSWORD_RESET_PATH = '/password-reset';
+export const PASSWORD_CHANGE_PATH = `${PASSWORD_RESET_PATH}/reset`;
