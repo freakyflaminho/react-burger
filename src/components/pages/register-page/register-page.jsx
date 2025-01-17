@@ -6,6 +6,7 @@ import CustomForm from '../../custom-form/custom-form';
 
 import { useRegisterMutation } from '../../../services/api/auth';
 import { setTokens } from '../../../utils/localstorage-utils';
+import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const RegisterPage = () => {
 
@@ -18,7 +19,7 @@ const RegisterPage = () => {
       setTokens(user.accessToken, user.refreshToken);
       navigate('/', { replace: true });
     }
-  });
+  }, [isSuccess, user, setTokens, navigate]);
 
   const handleChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -53,4 +54,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default withAuthRedirect(RegisterPage);

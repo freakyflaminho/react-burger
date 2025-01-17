@@ -4,3 +4,4 @@ export const INGREDIENTS_PATH = '/ingredients';
 export const ORDER_PATH = '/orders';
 export const LOGIN_PATH = '/auth/login';
 export const REGISTER_PATH = '/auth/register';
+export const USER_PATH = '/auth/user';

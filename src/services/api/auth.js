@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, LOGIN_PATH, REGISTER_PATH } from '../../utils/api';
+import { getAccessToken } from '../../utils/localstorage-utils';
+
+import { BASE_URL, LOGIN_PATH, REGISTER_PATH, USER_PATH } from '../../utils/api';
 
 const initialState = null;
 
@@ -24,10 +26,19 @@ export const authApi = createApi({
         body: user,
       }),
     }),
+    getUser: builder.query({
+      query: () => ({
+        url: USER_PATH,
+        headers: {
+          Authorization: getAccessToken(),
+        }
+      }),
+    }),
   }),
 });
 
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useGetUserQuery,
 } = authApi;

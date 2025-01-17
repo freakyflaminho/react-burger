@@ -6,6 +6,7 @@ import CustomForm from '../../custom-form/custom-form';
 
 import { useLoginMutation } from '../../../services/api/auth';
 import { setTokens } from '../../../utils/localstorage-utils';
+import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const LoginPage = () => {
 
@@ -59,4 +60,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default withAuthRedirect(LoginPage);
