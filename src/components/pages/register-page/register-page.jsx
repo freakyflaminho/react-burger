@@ -5,7 +5,6 @@ import { EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-
 import CustomForm from '../../custom-form/custom-form';
 
 import { useRegisterMutation } from '../../../services/api/auth';
-import { setTokens } from '../../../utils/localstorage-utils';
 import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const RegisterPage = () => {
@@ -16,10 +15,9 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (isSuccess && user?.success) {
-      setTokens(user.accessToken, user.refreshToken);
       navigate('/', { replace: true });
     }
-  }, [isSuccess, user, setTokens, navigate]);
+  }, [isSuccess, user, navigate]);
 
   const handleChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });

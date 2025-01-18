@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getAccessToken } from '../../utils/localstorage-utils';
+import { getAccessToken, setTokens } from '../../utils/localstorage-utils';
 
 import {
   BASE_URL,
@@ -25,6 +25,10 @@ export const authApi = createApi({
         method: 'POST',
         body: credentials,
       }),
+      async onQueryStarted(credentials, { queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        setTokens(data.accessToken, data.refreshToken);
+      },
     }),
     register: builder.mutation({
       query: (user) => ({
@@ -32,6 +36,10 @@ export const authApi = createApi({
         method: 'POST',
         body: user,
       }),
+      async onQueryStarted(user, { queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        setTokens(data.accessToken, data.refreshToken);
+      },
     }),
     getUser: builder.query({
       query: () => ({
