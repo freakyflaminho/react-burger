@@ -5,7 +5,6 @@ import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-co
 import CustomForm from '../../custom-form/custom-form';
 
 import { useChangePasswordMutation } from '../../../services/api/auth';
-import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const ResetPasswordPage = () => {
 
@@ -74,4 +73,4 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default withAuthRedirect(ResetPasswordPage);
+export default ResetPasswordPage;

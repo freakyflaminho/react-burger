@@ -5,7 +5,6 @@ import { EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-
 import CustomForm from '../../custom-form/custom-form';
 
 import { useLoginMutation } from '../../../services/api/auth';
-import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const LoginPage = () => {
 
@@ -58,4 +57,4 @@ const LoginPage = () => {
   );
 };
 
-export default withAuthRedirect(LoginPage);
+export default LoginPage;

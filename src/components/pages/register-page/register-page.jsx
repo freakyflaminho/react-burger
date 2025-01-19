@@ -5,7 +5,6 @@ import { EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-
 import CustomForm from '../../custom-form/custom-form';
 
 import { useRegisterMutation } from '../../../services/api/auth';
-import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const RegisterPage = () => {
 
@@ -52,4 +51,4 @@ const RegisterPage = () => {
   );
 };
 
-export default withAuthRedirect(RegisterPage);
+export default RegisterPage;

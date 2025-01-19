@@ -5,7 +5,6 @@ import { EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
 
 import { useResetPasswordMutation } from '../../../services/api/auth';
-import withAuthRedirect from '../../../hocs/with-auth-redirect';
 
 const ForgotPasswordPage = () => {
 
@@ -55,4 +54,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default withAuthRedirect(ForgotPasswordPage);
+export default ForgotPasswordPage;
