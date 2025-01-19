@@ -18,3 +18,11 @@ export function setTokens(accessToken, refreshToken) {
   setAccessToken(accessToken);
   setRefreshToken(refreshToken);
 }
+
+export function isAccessTokenExists() {
+  return !!getAccessToken();
+}
+
+export function isRefreshTokenExists() {
+  return !!getRefreshToken();
+}

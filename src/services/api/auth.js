@@ -13,7 +13,7 @@ import {
 const initialState = null;
 
 export const authApi = createApi({
-  reducerPath: 'auth',
+  reducerPath: 'authApi',
   initialState,
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
