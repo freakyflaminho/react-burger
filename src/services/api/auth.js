@@ -49,6 +49,16 @@ export const authApi = createApi({
         },
       }),
     }),
+    updateUser: builder.mutation({
+      query: (user) => ({
+        url: USER_PATH,
+        method: 'PATCH',
+        headers: {
+          Authorization: getAccessToken(),
+        },
+        body: user,
+      }),
+    }),
     resetPassword: builder.mutation({
       query: (email) => ({
         url: PASSWORD_RESET_PATH,
@@ -72,4 +82,5 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useGetUserQuery,
+  useUpdateUserMutation,
 } = authApi;
