@@ -1,5 +1,4 @@
 import { api } from './api';
-import { setTokens } from '../../utils/localstorage-utils';
 import { LOGIN_PATH, PASSWORD_CHANGE_PATH, PASSWORD_RESET_PATH, REGISTER_PATH, USER_PATH } from '../../utils/api';
 
 export const userApi = api.injectEndpoints({
@@ -10,10 +9,6 @@ export const userApi = api.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
-      async onQueryStarted(credentials, { queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        setTokens(data.accessToken, data.refreshToken);
-      },
     }),
     register: builder.mutation({
       query: (user) => ({
@@ -21,10 +16,6 @@ export const userApi = api.injectEndpoints({
         method: 'POST',
         body: user,
       }),
-      async onQueryStarted(user, { queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        setTokens(data.accessToken, data.refreshToken);
-      },
     }),
     getUser: builder.query({
       query: () => ({
