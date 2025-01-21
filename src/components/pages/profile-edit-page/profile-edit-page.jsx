@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useGetUserQuery, useUpdateUserMutation } from '../../../services/api/auth';
+import { useGetUserQuery, useUpdateUserMutation } from '../../../services/api/user-api';
 
 import styles from './profile-edit-page.module.css';
 

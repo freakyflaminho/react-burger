@@ -19,6 +19,11 @@ export function setTokens(accessToken, refreshToken) {
   setRefreshToken(refreshToken);
 }
 
+export function removeTokens() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+}
+
 export function isAccessTokenExists() {
   return !!getAccessToken();
 }

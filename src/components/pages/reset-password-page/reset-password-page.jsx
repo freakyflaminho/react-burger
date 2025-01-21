@@ -4,7 +4,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router';
 import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
 
-import { useChangePasswordMutation } from '../../../services/api/auth';
+import { useChangePasswordMutation } from '../../../services/api/user-api';
 
 const ResetPasswordPage = () => {
 

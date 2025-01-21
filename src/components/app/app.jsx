@@ -14,7 +14,7 @@ import ForgotPasswordPage from '../pages/forgot-password-page/forgot-password';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
 
 import withDataLoading from '../../hocs/with-data-loading';
-import { useGetIngredientsQuery } from '../../services/burger-ingredients';
+import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
 import { checkAuth, isAuth } from '../../services/slices/auth-slice';
 
 import styles from './app.module.css';

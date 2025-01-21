@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
 
-import { useLoginMutation } from '../../../services/api/auth';
+import { useLoginMutation } from '../../../services/api/user-api';
 
 const LoginPage = () => {
 

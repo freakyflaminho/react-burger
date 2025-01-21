@@ -1,16 +1,12 @@
 import { combineSlices } from '@reduxjs/toolkit';
+import { api } from './api/api';
 import { authSlice } from './slices/auth-slice';
-import { burgerConstructorSlice } from './burger-constructor';
-import { ingredientDetailsSlice } from './ingredient-details';
-import { authApi } from './api/auth';
-import { orderApi } from './order';
-import { burgerIngredientsApi } from './burger-ingredients';
+import { burgerConstructorSlice } from './slices/burger-constructor-slice';
+import { ingredientDetailsSlice } from './slices/ingredient-details-slice';
 
 export const rootReducer = combineSlices(
+  api,
   authSlice,
   burgerConstructorSlice,
   ingredientDetailsSlice,
-  authApi,
-  orderApi,
-  burgerIngredientsApi,
 );

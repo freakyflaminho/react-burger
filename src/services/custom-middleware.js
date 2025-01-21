@@ -1,9 +1,5 @@
-import { burgerIngredientsApi } from './burger-ingredients';
-import { orderApi } from './order';
-import { authApi } from './api/auth';
+import { api } from './api/api';
 
 export const customMiddlewares = [
-  burgerIngredientsApi.middleware,
-  orderApi.middleware,
-  authApi.middleware,
+  api.middleware,
 ];

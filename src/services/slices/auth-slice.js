@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { authApi } from '../api/auth';
+import { userApi } from '../api/user-api';
 import { isAccessTokenExists, isRefreshTokenExists } from '../../utils/localstorage-utils';
 
 const initialState = {
@@ -27,8 +27,8 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       isAnyOf(
-        authApi.endpoints.login.matchFulfilled,
-        authApi.endpoints.register.matchFulfilled,
+        userApi.endpoints.login.matchFulfilled,
+        userApi.endpoints.register.matchFulfilled,
       ),
       (state) => {
         state.isAuth = true;

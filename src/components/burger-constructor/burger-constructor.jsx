@@ -10,9 +10,9 @@ import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
-import { useGetIngredientsQuery } from '../../services/burger-ingredients';
-import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/burger-constructor';
-import { useCreateOrderMutation } from '../../services/order';
+import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
+import { useCreateOrderMutation } from '../../services/api/order-api';
+import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-constructor.module.css';

@@ -8,13 +8,13 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
-import { useGetIngredientsState } from '../../services/burger-ingredients';
-import { selectedIngredientsSelector } from '../../services/burger-constructor';
+import { useGetIngredientsState } from '../../services/api/ingredients-api';
+import { selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
 import {
   closeIngredientDetails,
   ingredientDetailsSelector,
   openIngredientDetails,
-} from '../../services/ingredient-details';
+} from '../../services/slices/ingredient-details-slice';
 
 const BurgerIngredients = () => {
   const ingredientTypes = Object.keys(INGREDIENT_TYPE);

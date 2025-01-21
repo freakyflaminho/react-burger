@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
 
-import { useResetPasswordMutation } from '../../../services/api/auth';
+import { useResetPasswordMutation } from '../../../services/api/user-api';
 
 const ForgotPasswordPage = () => {
 

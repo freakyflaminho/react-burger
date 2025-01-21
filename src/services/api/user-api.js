@@ -1,23 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getAccessToken, setTokens } from '../../utils/localstorage-utils';
+import { api } from './api';
+import { setTokens } from '../../utils/localstorage-utils';
+import { LOGIN_PATH, PASSWORD_CHANGE_PATH, PASSWORD_RESET_PATH, REGISTER_PATH, USER_PATH } from '../../utils/api';
 
-import {
-  BASE_URL,
-  LOGIN_PATH,
-  PASSWORD_CHANGE_PATH,
-  PASSWORD_RESET_PATH,
-  REGISTER_PATH,
-  USER_PATH
-} from '../../utils/api';
-
-const initialState = null;
-
-export const authApi = createApi({
-  reducerPath: 'authApi',
-  initialState,
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -44,18 +29,12 @@ export const authApi = createApi({
     getUser: builder.query({
       query: () => ({
         url: USER_PATH,
-        headers: {
-          Authorization: getAccessToken(),
-        },
       }),
     }),
     updateUser: builder.mutation({
       query: (user) => ({
         url: USER_PATH,
         method: 'PATCH',
-        headers: {
-          Authorization: getAccessToken(),
-        },
         body: user,
       }),
     }),
@@ -83,4 +62,4 @@ export const {
   useChangePasswordMutation,
   useGetUserQuery,
   useUpdateUserMutation,
-} = authApi;
+} = userApi;
