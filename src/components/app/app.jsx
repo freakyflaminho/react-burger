@@ -13,15 +13,11 @@ import RegisterPage from '../pages/register-page/register-page';
 import ForgotPasswordPage from '../pages/forgot-password-page/forgot-password';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
 
-import withDataLoading from '../../hocs/with-data-loading';
-import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
 import { checkAuth, isAuth } from '../../services/slices/auth-slice';
 
 import styles from './app.module.css';
 
 const App = () => {
-  const data = useGetIngredientsQuery();
-  const WithDataLoadingConstructorPage = withDataLoading(data, data.refetch)(ConstructorPage);
   const dispatch = useDispatch();
   const isUserAuth = useSelector(isAuth);
 
@@ -34,7 +30,7 @@ const App = () => {
       <BrowserRouter>
         <AppHeader />
         <Routes>
-          <Route index element={<WithDataLoadingConstructorPage />} />
+          <Route index element={<ConstructorPage />} />
           <Route
             path="/profile"
             element={

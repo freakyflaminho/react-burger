@@ -9,14 +9,14 @@ import BlankConstructorElement from '../blank-constructor-element/blank-construc
 import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import DataLoader from '../data-loader/DataLoader';
 
 import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
 import { useCreateOrderMutation } from '../../services/api/order-api';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
-
 import { INGREDIENT_TYPE } from '../../utils/consts';
+
 import styles from './burger-constructor.module.css';
-import withDataLoading from '../../hocs/with-data-loading';
 
 const BurgerConstructor = () => {
 
@@ -74,8 +74,7 @@ const BurgerConstructor = () => {
 
   const dropClass = canDrop ? styles.hover : undefined;
 
-  const WithDataLoadingOrderDetails = withDataLoading(order, createOrder)(OrderDetails);
-  const orderId = order?.data?.order?.number;
+  const orderId = order?.data?.order?.number || 0;
 
   return (
     <section>
@@ -153,7 +152,9 @@ const BurgerConstructor = () => {
 
         {!order.isUninitialized &&
           <Modal onClose={closeOrderDetails}>
-            <WithDataLoadingOrderDetails orderId={orderId} />
+            <DataLoader data={order} onRetry={createOrder}>
+              <OrderDetails orderId={orderId} />
+            </DataLoader>
           </Modal>
         }
       </div>
