@@ -1,9 +1,15 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
+import { useLogoutMutation } from '../../../services/api/user-api';
 
 import styles from './profile-page.module.css';
 
 const ProfilePage = () => {
   const location = useLocation();
+  const [logout] = useLogoutMutation();
+
+  const handleExit = () => {
+    logout();
+  };
 
   return (
     <main className={styles.page}>
@@ -28,7 +34,8 @@ const ProfilePage = () => {
           </li>
           <li>
             <NavLink
-              to="/"
+              to="/login"
+              onClick={handleExit}
               className={({ isActive }) => isActive ? styles.activeLink : styles.inactiveLink}
             >
               Выход

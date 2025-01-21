@@ -5,6 +5,7 @@ export const ORDER_PATH = '/orders';
 
 export const USER_PATH = '/auth/user';
 export const LOGIN_PATH = '/auth/login';
+export const LOGOUT_PATH = '/auth/logout';
 export const REGISTER_PATH = '/auth/register';
 export const REFRESH_TOKEN_PATH = '/auth/token';
 

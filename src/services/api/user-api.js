@@ -1,5 +1,14 @@
 import { api } from './api';
-import { LOGIN_PATH, PASSWORD_CHANGE_PATH, PASSWORD_RESET_PATH, REGISTER_PATH, USER_PATH } from '../../utils/api';
+import {
+  LOGIN_PATH,
+  LOGOUT_PATH,
+  PASSWORD_CHANGE_PATH,
+  PASSWORD_RESET_PATH,
+  REGISTER_PATH,
+  USER_PATH
+} from '../../utils/api';
+import { getRefreshToken, removeTokens } from '../../utils/localstorage-utils';
+import { checkAuth } from '../slices/auth-slice';
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +18,19 @@ export const userApi = api.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: LOGOUT_PATH,
+        method: 'POST',
+        body: { token: getRefreshToken() },
+      }),
+      async onQueryStarted(token, { dispatch, queryFulfilled }) {
+        await queryFulfilled.finally(() => {
+          removeTokens();
+          dispatch(checkAuth());
+        });
+      },
     }),
     register: builder.mutation({
       query: (user) => ({
@@ -48,6 +70,7 @@ export const userApi = api.injectEndpoints({
 
 export const {
   useLoginMutation,
+  useLogoutMutation,
   useRegisterMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
