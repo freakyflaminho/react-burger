@@ -47,6 +47,7 @@ const ForgotPasswordPage = () => {
       <EmailInput
         name="email"
         placeholder="Укажите e-mail"
+        autoComplete="email"
         value={form.email}
         onChange={handleChange}
       />

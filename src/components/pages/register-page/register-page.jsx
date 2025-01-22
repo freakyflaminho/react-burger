@@ -44,9 +44,25 @@ const RegisterPage = () => {
       isFetching={isLoading || isFetching || isSuccess}
       additionalActions={additionalActions}
     >
-      <Input name="name" placeholder="Имя" value={form.name} onChange={handleChange} />
-      <EmailInput name="email" value={form.email} onChange={handleChange} />
-      <PasswordInput name="password" value={form.password} onChange={handleChange} />
+      <Input
+        name="name"
+        placeholder="Имя"
+        autoComplete="username"
+        value={form.name}
+        onChange={handleChange}
+      />
+      <EmailInput
+        name="email"
+        autoComplete="email"
+        value={form.email}
+        onChange={handleChange}
+      />
+      <PasswordInput
+        name="password"
+        autoComplete="new-password"
+        value={form.password}
+        onChange={handleChange}
+      />
     </CustomForm>
   );
 };

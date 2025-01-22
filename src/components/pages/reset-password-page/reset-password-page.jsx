@@ -57,9 +57,15 @@ const ResetPasswordPage = () => {
       isFetching={isLoading || isFetching || isSuccess}
       additionalActions={additionalActions}
     >
+      <input
+        name="username"
+        autoComplete="username"
+        hidden
+      />
       <PasswordInput
         name="password"
         placeholder="Введите новый пароль"
+        autoComplete="new-password"
         value={form.password}
         onChange={handleChange}
       />
