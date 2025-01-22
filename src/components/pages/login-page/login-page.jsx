@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 import { EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
@@ -9,14 +8,7 @@ import { useLoginMutation } from '../../../services/api/user-api';
 const LoginPage = () => {
 
   const [form, setValue] = useState({ email: '8bhh7x5ci5@dygovil.com', password: 'testtest' });
-  const navigate = useNavigate();
-  const [login, { data: user, isSuccess, isLoading, isFetching }] = useLoginMutation();
-
-  useEffect(() => {
-    if (isSuccess && user?.success) {
-      navigate('/', { replace: true });
-    }
-  },[isSuccess, user, navigate]);
+  const [login, { isSuccess, isLoading, isFetching }] = useLoginMutation();
 
   const handleChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });

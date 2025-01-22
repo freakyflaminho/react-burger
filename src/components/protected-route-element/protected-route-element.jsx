@@ -1,11 +1,13 @@
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 
 const ProtectedRouteElement = ({ forAuth, isAuth, children }) => {
 
+  const location = useLocation();
+
   if (!forAuth && isAuth) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={location.state?.from || '/'} replace />;
   } else if (forAuth && !isAuth) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
   return children;
