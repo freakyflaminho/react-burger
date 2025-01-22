@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,18 +10,21 @@ import BlankConstructorElement from '../blank-constructor-element/blank-construc
 import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import DataLoader from '../data-loader/DataLoader';
 
+import DataLoader from '../data-loader/DataLoader';
 import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
 import { useCreateOrderMutation } from '../../services/api/order-api';
+import { isAuth } from '../../services/slices/auth-slice';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
-import { INGREDIENT_TYPE } from '../../utils/consts';
 
+import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isUserAuth = useSelector(isAuth);
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
   const { data: { data: ingredients } } = useGetIngredientsQuery();
   const [useCreateOrderQuery, order] = useCreateOrderMutation();
@@ -48,6 +52,7 @@ const BurgerConstructor = () => {
     [selectedBun, selectedIngredients]);
 
   const createOrder = () => {
+    !isUserAuth && navigate('/login');
     const ids = [
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
       selectedIngredientIds.bun
