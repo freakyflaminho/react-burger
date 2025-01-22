@@ -7,8 +7,8 @@ import {
   REGISTER_PATH,
   USER_PATH
 } from '../../utils/api';
+import { setAuth } from '../slices/auth-slice';
 import { getRefreshToken, removeTokens } from '../../utils/localstorage-utils';
-import { checkAuth } from '../slices/auth-slice';
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,9 +26,9 @@ export const userApi = api.injectEndpoints({
         body: { token: getRefreshToken() },
       }),
       async onQueryStarted(token, { dispatch, queryFulfilled }) {
+        dispatch(setAuth({ isAuth: false }));
         await queryFulfilled.finally(() => {
           removeTokens();
-          dispatch(checkAuth());
         });
       },
     }),

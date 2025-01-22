@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 
 import AppHeader from '../app-header/app-header';
@@ -15,25 +14,18 @@ import ResetPasswordPage from '../pages/reset-password-page/reset-password-page'
 import IngredientPage from '../pages/ingredient-page/ingredient-page';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { checkAuth, isAuth } from '../../services/slices/auth-slice';
 
 import styles from './app.module.css';
 
 const App = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const isUserAuth = useSelector(isAuth);
 
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch, checkAuth]);
+  const background = location.state && location.state.background;
 
   const closeIngredientModal = () => {
     navigate(-1);
   };
-
-  const background = location.state && location.state.background;
 
   return (
     <div className={styles.container}>
@@ -44,7 +36,7 @@ const App = () => {
         <Route
           path="/profile"
           element={
-            <ProtectedRouteElement forAuth={true} isAuth={isUserAuth}>
+            <ProtectedRouteElement forAuth={true}>
               <ProfilePage />
             </ProtectedRouteElement>
           }
@@ -56,7 +48,7 @@ const App = () => {
         <Route
           path="login"
           element={
-            <ProtectedRouteElement forAuth={false} isAuth={isUserAuth}>
+            <ProtectedRouteElement forAuth={false}>
               <LoginPage />
             </ProtectedRouteElement>
           }
@@ -65,7 +57,7 @@ const App = () => {
         <Route
           path="register"
           element={
-            <ProtectedRouteElement forAuth={false} isAuth={isUserAuth}>
+            <ProtectedRouteElement forAuth={false}>
               <RegisterPage />
             </ProtectedRouteElement>
           }
@@ -74,7 +66,7 @@ const App = () => {
         <Route
           path="forgot-password"
           element={
-            <ProtectedRouteElement forAuth={false} isAuth={isUserAuth}>
+            <ProtectedRouteElement forAuth={false}>
               <ForgotPasswordPage />
             </ProtectedRouteElement>
           }
@@ -83,7 +75,7 @@ const App = () => {
         <Route
           path="reset-password"
           element={
-            <ProtectedRouteElement forAuth={false} isAuth={isUserAuth}>
+            <ProtectedRouteElement forAuth={false}>
               <ResetPasswordPage />
             </ProtectedRouteElement>
           }

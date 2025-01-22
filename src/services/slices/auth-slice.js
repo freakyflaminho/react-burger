@@ -19,6 +19,11 @@ export const authSlice = createSlice({
         state.isAuth = action.payload.isAuth;
       },
     },
+    setAuth: {
+      reducer: (state, action) => {
+        state.isAuth = action.payload.isAuth;
+      }
+    },
   },
   selectors: {
     isAuth: (state) => state.isAuth,
@@ -27,6 +32,7 @@ export const authSlice = createSlice({
 
 export const {
   checkAuth,
+  setAuth
 } = authSlice.actions;
 
 export const {
