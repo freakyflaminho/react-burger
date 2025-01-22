@@ -23,7 +23,7 @@ const Menu = () => {
         </li>
         <li className={styles.listItem}>
           <CustomLink
-            to="/orders"
+            to="/feed"
             isActive={active === '/orders'}
             setActive={setActive}
             icon={ListIcon}

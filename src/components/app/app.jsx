@@ -13,6 +13,7 @@ import ForgotPasswordPage from '../pages/forgot-password-page/forgot-password';
 import ResetPasswordPage from '../pages/reset-password-page/reset-password-page';
 import IngredientPage from '../pages/ingredient-page/ingredient-page';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrdersFeedPage from '../pages/orders-feed-page/orders-feed-page';
 import Modal from '../modal/modal';
 
 import styles from './app.module.css';
@@ -31,7 +32,19 @@ const App = () => {
     <div className={styles.container}>
       <AppHeader />
       <Routes location={background || location}>
-        <Route index element={<ConstructorPage />} />
+        <Route
+          index
+          element={<ConstructorPage />}
+        />
+
+        <Route
+          path="/feed"
+          element={
+            <ProtectedRouteElement forAuth={true}>
+              <OrdersFeedPage />
+            </ProtectedRouteElement>
+          }
+        />
 
         <Route
           path="/profile"
@@ -83,6 +96,7 @@ const App = () => {
 
         <Route path="ingredients/:id" element={<IngredientPage />} />
       </Routes>
+
       {background && (
         <Routes>
           <Route path="ingredients/:id" element={
