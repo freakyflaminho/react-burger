@@ -64,6 +64,7 @@ const ProfileEditPage = () => {
           icon="EditIcon"
           disabled={false}
           autoComplete="email"
+          errorText="Некорректный e-mail"
           value={form.email}
           onChange={handleChange}
         />

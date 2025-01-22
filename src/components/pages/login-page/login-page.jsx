@@ -8,7 +8,7 @@ import { useLoginMutation } from '../../../services/api/user-api';
 const LoginPage = () => {
 
   const [form, setValue] = useState({ email: '', password: '' });
-  const [login, { isSuccess, isLoading, isFetching }] = useLoginMutation();
+  const [login, { isSuccess, isLoading, isFetching, isError }] = useLoginMutation();
 
   const handleChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -46,6 +46,7 @@ const LoginPage = () => {
       <EmailInput
         name="email"
         autoComplete="email"
+        errorText="Некорректный e-mail"
         value={form.email}
         onChange={handleChange}
       />
@@ -55,6 +56,7 @@ const LoginPage = () => {
         value={form.password}
         onChange={handleChange}
       />
+      {isError && <p className="input__error text_type_main-default">Некорректный e-mail или пароль</p>}
     </CustomForm>
   );
 };

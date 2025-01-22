@@ -17,7 +17,8 @@ const ResetPasswordPage = () => {
       data: user,
       isSuccess,
       isLoading,
-      isFetching
+      isFetching,
+      isError,
     }
   ] = useChangePasswordMutation();
 
@@ -75,6 +76,7 @@ const ResetPasswordPage = () => {
         value={form.token}
         onChange={handleChange}
       />
+      {isError && <p className="input__error text_type_main-default">Некорректный код</p>}
     </CustomForm>
   );
 };
