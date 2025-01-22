@@ -4,7 +4,9 @@ import { INGREDIENTS_PATH } from '../../utils/api';
 export const ingredientsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getIngredients: builder.query({
-      query: () => INGREDIENTS_PATH,
+      query: () => ({
+        url: INGREDIENTS_PATH,
+      }),
     }),
   }),
 });

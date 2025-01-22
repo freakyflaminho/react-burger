@@ -12,7 +12,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
 import DataLoader from '../data-loader/DataLoader';
-import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
+import { useGetIngredientsState } from '../../services/api/ingredients-api';
 import { useCreateOrderMutation } from '../../services/api/order-api';
 import { isAuth } from '../../services/slices/auth-slice';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
@@ -26,7 +26,7 @@ const BurgerConstructor = () => {
   const navigate = useNavigate();
   const isUserAuth = useSelector(isAuth);
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
-  const { data: { data: ingredients } } = useGetIngredientsQuery();
+  const { data: { data: ingredients } } = useGetIngredientsState();
   const [useCreateOrderQuery, order] = useCreateOrderMutation();
 
   const selectedBun = useMemo(
