@@ -47,9 +47,7 @@ const BurgerConstructor = () => {
       selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
-  const isOrderAvailable = useMemo(
-    () => selectedBun && selectedIngredients.length,
-    [selectedBun, selectedIngredients]);
+  const isOrderAvailable = selectedBun && selectedIngredients.length;
 
   const createOrder = () => {
     !isUserAuth && navigate('/login');
