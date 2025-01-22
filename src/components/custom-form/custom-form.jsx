@@ -1,7 +1,10 @@
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './custom-form.module.css';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Loader from '../loader/loader';
+
+import styles from './custom-form.module.css';
 
 const CustomForm = ({
   title,
@@ -39,6 +42,23 @@ const CustomForm = ({
       </form>
     </main>
   );
+};
+
+CustomForm.propTypes = {
+  title: PropTypes.string,
+  additionalActions: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      link: PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        to: PropTypes.string.isRequired,
+      }).isRequired,
+    })
+  ),
+  submitButtonText: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
 export default CustomForm;

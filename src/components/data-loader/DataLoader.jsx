@@ -28,6 +28,7 @@ DataLoader.propTypes = {
     isError: PropTypes.bool.isRequired,
   }),
   onRetry: PropTypes.func,
+  children: PropTypes.node.isRequired,
 };
 
 export default DataLoader;
