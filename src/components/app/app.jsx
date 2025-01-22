@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 
 import AppHeader from '../app-header/app-header';
@@ -17,9 +18,12 @@ import OrdersFeedPage from '../pages/orders-feed-page/orders-feed-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import Modal from '../modal/modal';
 
+import { checkAuth } from '../../services/slices/auth-slice';
+
 import styles from './app.module.css';
 
 const App = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,6 +32,10 @@ const App = () => {
   const closeIngredientModal = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch, checkAuth]);
 
   return (
     <div className={styles.container}>

@@ -1,19 +1,13 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router';
 
 import PropTypes from 'prop-types';
 
-import { checkAuth, isAuth } from '../../services/slices/auth-slice';
+import { isAuth } from '../../services/slices/auth-slice';
 
 const ProtectedRouteElement = ({ forAuth, children }) => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const isUserAuth = useSelector(isAuth);
-
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch, checkAuth]);
 
   if (!forAuth && isUserAuth) {
     return <Navigate to={location.state?.from || '/'} replace />;
