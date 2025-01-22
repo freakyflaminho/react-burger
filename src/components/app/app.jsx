@@ -14,6 +14,7 @@ import ResetPasswordPage from '../pages/reset-password-page/reset-password-page'
 import IngredientPage from '../pages/ingredient-page/ingredient-page';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrdersFeedPage from '../pages/orders-feed-page/orders-feed-page';
+import NotFoundPage from '../pages/not-found-page/not-found-page';
 import Modal from '../modal/modal';
 
 import styles from './app.module.css';
@@ -94,7 +95,15 @@ const App = () => {
           }
         />
 
-        <Route path="ingredients/:id" element={<IngredientPage />} />
+        <Route
+          path="ingredients/:id"
+          element={<IngredientPage />}
+        />
+
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
       </Routes>
 
       {background && (
