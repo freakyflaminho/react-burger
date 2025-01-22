@@ -48,7 +48,9 @@ const ProfilePage = () => {
               : ''}
         </p>
       </nav>
-      <Outlet />
+      <div className={styles.content}>
+        <Outlet />
+      </div>
     </main>
   );
 };
