@@ -1,29 +1,24 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router';
 
 import Tabs from '../tabs/tabs';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
-import { useGetIngredientsState } from '../../services/burger-ingredients';
-import { selectedIngredientsSelector } from '../../services/burger-constructor';
-import {
-  closeIngredientDetails,
-  ingredientDetailsSelector,
-  openIngredientDetails,
-} from '../../services/ingredient-details';
+import { useGetIngredientsState } from '../../services/api/ingredients-api';
+import { selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
 
 const BurgerIngredients = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const ingredientTypes = Object.keys(INGREDIENT_TYPE);
 
   const [activeTab, setActiveTab] = useState(ingredientTypes[0]);
   const { data: { data: ingredients } } = useGetIngredientsState();
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
-  const ingredientDetails = useSelector(ingredientDetailsSelector);
-  const dispatch = useDispatch();
 
   const refs = ingredientTypes.reduce(
     (acc, current) => ({ ...acc, [current]: '' }), {});
@@ -49,8 +44,9 @@ const BurgerIngredients = () => {
     },
     [ingredients, selectedIngredientIds]);
 
-  const handleIngredientClick = ingredient => dispatch(openIngredientDetails(ingredient));
-  const closeIngredientModal = () => dispatch(closeIngredientDetails());
+  const handleIngredientClick = ingredient => {
+    navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
+  };
 
   const handleScroll = e => {
     const containerPos = e.target.getBoundingClientRect().top;
@@ -96,11 +92,6 @@ const BurgerIngredients = () => {
           />
         )}
       </ScrollablePanel>
-
-      {ingredientDetails &&
-        <Modal onClose={closeIngredientModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={ingredientDetails} />
-        </Modal>}
     </section>
   );
 };

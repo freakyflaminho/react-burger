@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { useDrop } from 'react-dnd';
 
 import { Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,19 +11,22 @@ import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
-import { useGetIngredientsQuery } from '../../services/burger-ingredients';
-import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/burger-constructor';
-import { useCreateOrderMutation } from '../../services/order';
+import DataLoader from '../data-loader/DataLoader';
+import { useGetIngredientsState } from '../../services/api/ingredients-api';
+import { useCreateOrderMutation } from '../../services/api/order-api';
+import { isAuth } from '../../services/slices/auth-slice';
+import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
 import styles from './burger-constructor.module.css';
-import withDataLoading from '../../hocs/with-data-loading';
 
 const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isUserAuth = useSelector(isAuth);
   const selectedIngredientIds = useSelector(selectedIngredientsSelector);
-  const { data: { data: ingredients } } = useGetIngredientsQuery();
+  const { data: { data: ingredients } } = useGetIngredientsState();
   const [useCreateOrderQuery, order] = useCreateOrderMutation();
 
   const selectedBun = useMemo(
@@ -43,11 +47,10 @@ const BurgerConstructor = () => {
       selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
-  const isOrderAvailable = useMemo(
-    () => selectedBun && selectedIngredients.length,
-    [selectedBun, selectedIngredients]);
+  const isOrderAvailable = selectedBun && selectedIngredients.length;
 
   const createOrder = () => {
+    !isUserAuth && navigate('/login');
     const ids = [
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
       selectedIngredientIds.bun
@@ -74,8 +77,7 @@ const BurgerConstructor = () => {
 
   const dropClass = canDrop ? styles.hover : undefined;
 
-  const WithDataLoadingOrderDetails = withDataLoading(order, createOrder)(OrderDetails);
-  const orderId = order?.data?.order?.number;
+  const orderId = order?.data?.order?.number || 0;
 
   return (
     <section>
@@ -153,7 +155,9 @@ const BurgerConstructor = () => {
 
         {!order.isUninitialized &&
           <Modal onClose={closeOrderDetails}>
-            <WithDataLoadingOrderDetails orderId={orderId} />
+            <DataLoader data={order} onRetry={createOrder}>
+              <OrderDetails orderId={orderId} />
+            </DataLoader>
           </Modal>
         }
       </div>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { changeIngredientPosition, removeIngredient } from '../../services/burger-constructor';
+import { changeIngredientPosition, removeIngredient } from '../../services/slices/burger-constructor-slice';
 
 import styles from './burger-constructor-draggable-card.module.css';
 

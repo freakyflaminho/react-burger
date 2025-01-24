@@ -1,12 +1,21 @@
-import { ingredientPropType } from '../../utils/prop-types';
+import { useParams } from 'react-router';
+import DataLoader from '../data-loader/DataLoader';
+
+import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
+
 import styles from './ingredient-details.module.css';
 
-const IngredientDetails = ({ ingredient }) => {
-  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
+const IngredientDetails = () => {
+  let { id } = useParams();
+  const data = useGetIngredientsQuery();
+
+  const ingredients = data?.data?.data;
+  const ingredient = ingredients?.find((el) => el._id === id);
+  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient || {};
 
   return (
-    <>
-      <img src={image_large} alt={name} />
+    <DataLoader data={data} onRetry={data.refetch}>
+      <img src={image_large} alt={ingredient?.name} />
       <p className="text text_type_main-medium mt-4 mb-8">
         {name}
       </p>
@@ -28,12 +37,8 @@ const IngredientDetails = ({ ingredient }) => {
           <p>{carbohydrates}</p>
         </li>
       </ul>
-    </>
+    </DataLoader>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType,
 };
 
 export default IngredientDetails;

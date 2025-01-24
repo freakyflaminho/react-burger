@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomLink from '../custom-link/custom-link';
+
 import styles from './menu.module.css';
 
 const Menu = () => {
@@ -11,7 +13,7 @@ const Menu = () => {
       <ul className={styles.list}>
         <li className={styles.listItem}>
           <CustomLink
-            to="/constructor"
+            to="/"
             isActive={active === '/constructor'}
             setActive={setActive}
             icon={BurgerIcon}
@@ -21,7 +23,7 @@ const Menu = () => {
         </li>
         <li className={styles.listItem}>
           <CustomLink
-            to="/orders"
+            to="/feed"
             isActive={active === '/orders'}
             setActive={setActive}
             icon={ListIcon}
