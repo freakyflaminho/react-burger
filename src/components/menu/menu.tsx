@@ -1,51 +1,27 @@
-import React, { useState } from 'react';
-
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomLink from '../custom-link/custom-link';
 
 import styles from './menu.module.css';
 
 const Menu = () => {
-  const [active, setActive] = useState('constructor');
-
   return (
     <nav>
       <ul className={styles.list}>
         <li className={styles.listItem}>
-          <CustomLink
-            to="/"
-            isActive={active === '/constructor'}
-            setActive={setActive}
-            icon={BurgerIcon}
-          >
+          <CustomLink to="/" icon={BurgerIcon}>
             Конструктор
           </CustomLink>
         </li>
         <li className={styles.listItem}>
-          <CustomLink
-            to="/feed"
-            isActive={active === '/orders'}
-            setActive={setActive}
-            icon={ListIcon}
-          >
+          <CustomLink to="/feed" icon={ListIcon}>
             Лента заказов
           </CustomLink>
         </li>
         <li className={`${styles.listItem} ${styles.logo}`}>
-          <CustomLink
-            to="/"
-            isActive={active === '/'}
-            setActive={setActive}
-            icon={Logo}
-          />
+          <CustomLink to="/" icon={Logo} />
         </li>
         <li className={`${styles.listItem} ${styles.listItemLast}`}>
-          <CustomLink
-            to="/profile"
-            isActive={active === '/profile'}
-            setActive={setActive}
-            icon={ProfileIcon}
-          >
+          <CustomLink to="/profile" icon={ProfileIcon}>
             Личный кабинет
           </CustomLink>
         </li>
