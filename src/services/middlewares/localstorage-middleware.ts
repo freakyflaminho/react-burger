@@ -1,15 +1,16 @@
-import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
-import { api } from '../api/api';
+import { createListenerMiddleware, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { setTokens } from '../../utils/localstorage-utils';
+import { TokenPair } from '../../utils/api-types';
+import { userApi } from '../api/user-api';
 
 const localstorageMiddleware = createListenerMiddleware();
 
 localstorageMiddleware.startListening({
   matcher: isAnyOf(
-    api.endpoints.login.matchFulfilled,
-    api.endpoints.register.matchFulfilled,
+    userApi.endpoints.login.matchFulfilled,
+    userApi.endpoints.register.matchFulfilled,
   ),
-  effect: (action, api) => {
+  effect: (action: PayloadAction<TokenPair>, api) => {
     const { accessToken, refreshToken } = action.payload;
     setTokens(accessToken, refreshToken);
     api.dispatch({ type: 'auth/checkAuth', payload: { isAuth: true } });
