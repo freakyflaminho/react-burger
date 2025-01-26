@@ -1,7 +1,7 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { SelectedIngredient, SelectedIngredients } from '../../utils/types.ts';
+import { SelectedIngredientId, SelectedIngredientIds } from '../../utils/types.ts';
 
-const initialState: SelectedIngredients = {
+const initialState: SelectedIngredientIds = {
   bun: null,
   ingredients: [],
 };
@@ -14,7 +14,7 @@ export const burgerConstructorSlice = createSlice({
       state.bun = action.payload;
     },
     addIngredient: {
-      reducer: (state, action: PayloadAction<SelectedIngredient>) => {
+      reducer: (state, action: PayloadAction<SelectedIngredientId>) => {
         state.ingredients.push(action.payload);
       },
       prepare: (id: string) => ({

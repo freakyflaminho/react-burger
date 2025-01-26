@@ -9,14 +9,14 @@ import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingre
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
 import { useGetIngredientsState } from '../../services/api/ingredients-api';
 import { selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
-import { Ingredient, IngredientType, ObjectMap, SelectedIngredients } from '../../utils/types.ts';
+import { Ingredient, IngredientType, ObjectMap, SelectedIngredientIds } from '../../utils/types.ts';
 
 const BurgerIngredients = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
-  const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
+  const selectedIngredientIds: SelectedIngredientIds = useSelector(selectedIngredientsSelector);
 
   const ingredientTypes = Object.keys(INGREDIENT_TYPE) as (IngredientType)[];
   const [activeTab, setActiveTab] = useState(ingredientTypes[0]);

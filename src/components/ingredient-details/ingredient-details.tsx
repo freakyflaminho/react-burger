@@ -11,7 +11,6 @@ import { GetIngredientsResponse } from '../../utils/api-types.ts';
 const IngredientDetails = () => {
   const { id } = useParams();
   const data = useGetIngredientsQuery<TypedUseQueryHookResult<GetIngredientsResponse, FetchArgs, BaseQueryFn>>();
-  console.log(data);
 
   const ingredients = data?.data?.data;
   const ingredient = ingredients?.find((el: Ingredient) => el._id === id);

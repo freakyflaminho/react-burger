@@ -14,14 +14,18 @@ export type Ingredient = {
   image_large: string;
 };
 
-export type SelectedIngredient = {
-  id: string;
+export type SelectedIngredient = Ingredient & {
+  posId: string;
+}
+
+export type SelectedIngredientId = {
+  id: string | null;
   posId?: string;
 };
 
-export type SelectedIngredients = {
+export type SelectedIngredientIds = {
   bun: string | null;
-  ingredients: SelectedIngredient[];
+  ingredients: SelectedIngredientId[];
 };
 
 export type ObjectMap<T> = {

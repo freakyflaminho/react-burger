@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
-import { Ingredient, ObjectMap, SelectedIngredient } from '../../utils/types';
+import { Ingredient, ObjectMap, SelectedIngredientId } from '../../utils/types';
 
 import styles from './burger-ingredients-section.module.css';
 
@@ -10,7 +10,7 @@ type Props = {
   type: string;
   title: string;
   ingredients: Ingredient[];
-  selectedIngredients: SelectedIngredient[];
+  selectedIngredients: SelectedIngredientId[];
   onIngredientClick: (ingredient: Ingredient) => void;
   refs: ObjectMap<HTMLElement | null>;
 };

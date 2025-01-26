@@ -18,7 +18,7 @@ import { isAuth } from '../../services/slices/auth-slice';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
-import { DroppedIngredient, Ingredient, SelectedIngredients } from '../../utils/types.ts';
+import { DroppedIngredient, Ingredient, SelectedIngredient, SelectedIngredientIds } from '../../utils/types.ts';
 
 import styles from './burger-constructor.module.css';
 import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
@@ -29,7 +29,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isUserAuth: boolean = useSelector(isAuth);
-  const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
+  const selectedIngredientIds: SelectedIngredientIds = useSelector(selectedIngredientsSelector);
   const [createOrder, order] = useCreateOrderMutation<TypedUseQueryHookResult<CreateOrderResponse, FetchArgs, BaseQueryFn>>();
   const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
 
@@ -42,7 +42,7 @@ const BurgerConstructor = () => {
     () => selectedIngredientIds.ingredients.map(
       selected => {
         const ingredient = ingredients.find((ingredient: Ingredient) => ingredient._id === selected.id);
-        return { ...ingredient, posId: selected.posId };
+        return { ...ingredient, posId: selected.posId } as SelectedIngredient;
       }),
     [ingredients, selectedIngredientIds.ingredients]);
 
@@ -61,9 +61,9 @@ const BurgerConstructor = () => {
     const ids = [
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
       selectedIngredientIds.bun,
-    ];
+    ] as string[];
 
-    createOrder(ids);
+    createOrder(ids)
   };
 
   const closeOrderDetails = () => {
