@@ -16,7 +16,7 @@ export type Ingredient = {
 
 export type SelectedIngredient = {
   id: string;
-  posId: number;
+  posId?: number;
 };
 
 export type SelectedIngredients = {
