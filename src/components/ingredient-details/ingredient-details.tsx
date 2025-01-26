@@ -2,15 +2,16 @@ import { useParams } from 'react-router';
 import DataLoader from '../data-loader/DataLoader';
 
 import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
+import { Ingredient } from '../../utils/types.ts';
 
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const data = useGetIngredientsQuery();
 
   const ingredients = data?.data?.data;
-  const ingredient = ingredients?.find((el) => el._id === id);
+  const ingredient = ingredients?.find((el: Ingredient) => el._id === id);
   const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient || {};
 
   return (
