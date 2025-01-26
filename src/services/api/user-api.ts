@@ -40,7 +40,7 @@ export const userApi = api.injectEndpoints({
         body: { token: getRefreshToken() },
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(setAuth({ isAuth: false }));
+        dispatch(setAuth(true));
         await queryFulfilled.finally(() => {
           removeTokens();
         });

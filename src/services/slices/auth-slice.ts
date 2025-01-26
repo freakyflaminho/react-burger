@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isAccessTokenExists, isRefreshTokenExists } from '../../utils/localstorage-utils';
 
 const initialState = {
@@ -11,18 +11,14 @@ export const authSlice = createSlice({
   reducers: {
     checkAuth: {
       prepare: () => ({
-        payload: {
-          isAuth: isAccessTokenExists() || isRefreshTokenExists(),
-        }
+        payload: isAccessTokenExists() || isRefreshTokenExists(),
       }),
-      reducer: (state, action) => {
-        state.isAuth = action.payload.isAuth;
+      reducer: (state, action: PayloadAction<boolean>) => {
+        state.isAuth = action.payload;
       },
     },
-    setAuth: {
-      reducer: (state, action) => {
-        state.isAuth = action.payload.isAuth;
-      }
+    setAuth: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload;
     },
   },
   selectors: {
@@ -32,7 +28,7 @@ export const authSlice = createSlice({
 
 export const {
   checkAuth,
-  setAuth
+  setAuth,
 } = authSlice.actions;
 
 export const {
