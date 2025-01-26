@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router';
 
 import { Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -19,7 +19,7 @@ const ResetPasswordPage = () => {
       isLoading,
       isFetching,
       isError,
-    }
+    },
   ] = useChangePasswordMutation();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ResetPasswordPage = () => {
     }
   });
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 

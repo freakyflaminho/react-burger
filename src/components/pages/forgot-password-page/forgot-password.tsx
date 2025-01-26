@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -14,11 +14,11 @@ const ForgotPasswordPage = () => {
 
   useEffect(() => {
     if (isSuccess && user?.success) {
-      navigate('/reset-password', { state: {isRedirected: true}});
+      navigate('/reset-password', { state: { isRedirected: true } });
     }
   });
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
