@@ -1,37 +1,38 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
+import { SelectedIngredient, SelectedIngredients } from '../../utils/types.ts';
 
-const initialState = {
+const initialState: SelectedIngredients = {
   bun: null,
-  ingredients: []
+  ingredients: [],
 };
 
 export const burgerConstructorSlice = createSlice({
   name: 'selectedIngredients',
   initialState,
   reducers: {
-    addBun: (state, action) => {
+    addBun: (state, action: PayloadAction<string>) => {
       state.bun = action.payload;
     },
     addIngredient: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<SelectedIngredient>) => {
         state.ingredients.push(action.payload);
       },
-      prepare: (id) => ({
-        payload: { id, posId: nanoid() }
+      prepare: (id: string) => ({
+        payload: { id, posId: nanoid() },
       }),
     },
-    removeIngredient: (state, action) => {
+    removeIngredient: (state, action: PayloadAction<number>) => {
       state.ingredients.splice(action.payload, 1);
     },
     changeIngredientPosition: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<{ next: number; prev: number }>) => {
         state.ingredients.splice(
           action.payload.next,
           0,
           state.ingredients.splice(action.payload.prev, 1)[0]);
       },
-      prepare: (prev, next) => ({
-        payload: { prev, next }
+      prepare: (prev: number, next: number) => ({
+        payload: { prev, next },
       }),
     },
   },
