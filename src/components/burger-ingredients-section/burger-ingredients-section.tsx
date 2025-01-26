@@ -1,10 +1,19 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import { tabRefsPropType } from '../../utils/prop-types';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
+import { Ingredient, ObjectMap, SelectedIngredient } from '../../utils/types';
+
 import styles from './burger-ingredients-section.module.css';
+
+type Props = {
+  type: string;
+  title: string;
+  ingredients: Ingredient[];
+  selectedIngredients: SelectedIngredient[];
+  onIngredientClick: (ingredient: Ingredient) => void;
+  refs: ObjectMap<HTMLElement | null>;
+};
 
 const BurgerIngredientsSection = ({
   type,
@@ -13,13 +22,14 @@ const BurgerIngredientsSection = ({
   selectedIngredients,
   onIngredientClick,
   refs,
-}) => {
+}: Props) => {
+
   const countSelectedIngredientsById = useCallback(
-    (id, type) => {
+    (id: string, type: string) => {
       const selectedCount = selectedIngredients.filter(selected => selected.id === id).length;
       return type === INGREDIENT_TYPE.BUN ? selectedCount * 2 : selectedCount;
     },
-    [selectedIngredients]
+    [selectedIngredients],
   );
 
   return (
@@ -42,15 +52,6 @@ const BurgerIngredientsSection = ({
       </ul>
     </>
   );
-};
-
-BurgerIngredientsSection.propTypes = {
-  type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  ingredients: PropTypes.array.isRequired,
-  selectedIngredients: PropTypes.array.isRequired,
-  onIngredientClick: PropTypes.func.isRequired,
-  refs: tabRefsPropType,
 };
 
 export default React.memo(BurgerIngredientsSection);

@@ -1,10 +1,17 @@
-import PropTypes, { string } from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { IngredientType } from '../../utils/types.ts';
 import styles from './tabs.module.css';
 
-const Tabs = ({ tabs, onTabClick, active, getTitleByType }) => {
+type Props = {
+  tabs: IngredientType[];
+  active: IngredientType;
+  onTabClick: (value: string) => void;
+  getTitleByType: (type: IngredientType) => string;
+};
+
+const Tabs = ({ tabs, active, onTabClick, getTitleByType }: Props) => {
   return (
-    <div className={`${styles.container}`}>
+    <div className={styles.container}>
       {tabs.map(tab =>
         <Tab key={tab}
              value={tab}
@@ -15,13 +22,6 @@ const Tabs = ({ tabs, onTabClick, active, getTitleByType }) => {
         </Tab>)}
     </div>
   );
-};
-
-Tabs.propTypes = {
-  tabs: PropTypes.arrayOf(string).isRequired,
-  active: PropTypes.string.isRequired,
-  onTabClick: PropTypes.func,
-  getTitleByType: PropTypes.func,
 };
 
 export default Tabs;

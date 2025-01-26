@@ -1,13 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
+
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import PriceBlock from '../price-block/price-block';
-import { ingredientPropType } from '../../utils/prop-types';
+import { Ingredient } from '../../utils/types.ts';
 
 import styles from './burger-ingredient.module.css';
 
-const BurgerIngredient = ({ data, selectedCount, onClick }) => {
+type Props = {
+  data: Ingredient;
+  selectedCount: number;
+  onClick: (ingredient: Ingredient) => void;
+};
+
+const BurgerIngredient = ({ data, selectedCount, onClick }: Props) => {
   const handleOnClick = () => onClick(data);
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -18,7 +24,7 @@ const BurgerIngredient = ({ data, selectedCount, onClick }) => {
     },
     collect: monitor => ({
       isDrag: monitor.isDragging(),
-    })
+    }),
   });
 
   return (
@@ -38,12 +44,6 @@ const BurgerIngredient = ({ data, selectedCount, onClick }) => {
       </p>
     </div>
   );
-};
-
-BurgerIngredient.propTypes = {
-  data: ingredientPropType,
-  selectedCount: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default React.memo(BurgerIngredient);

@@ -9,47 +9,49 @@ import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingre
 import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
 import { useGetIngredientsState } from '../../services/api/ingredients-api';
 import { selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
+import { Ingredient, IngredientType, ObjectMap, SelectedIngredients } from '../../utils/types.ts';
 
 const BurgerIngredients = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const ingredientTypes = Object.keys(INGREDIENT_TYPE);
-
-  const [activeTab, setActiveTab] = useState(ingredientTypes[0]);
   const { data: { data: ingredients } } = useGetIngredientsState();
-  const selectedIngredientIds = useSelector(selectedIngredientsSelector);
+  const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
 
-  const refs = ingredientTypes.reduce(
-    (acc, current) => ({ ...acc, [current]: '' }), {});
+  const ingredientTypes = Object.keys(INGREDIENT_TYPE) as (IngredientType)[];
+  const [activeTab, setActiveTab] = useState(ingredientTypes[0]);
+
+  const refs: ObjectMap<HTMLElement> = ingredientTypes.reduce(
+    (acc, current): ObjectMap<HTMLElement> => ({ ...acc, [current]: '' }), {});
 
   const getTitleByType = useCallback(
-    type => INGREDIENT_TITLE_RU[type] || INGREDIENT_TITLE_RU['DEFAULT'],
-    []
+    (type: IngredientType): string => INGREDIENT_TITLE_RU[type] || INGREDIENT_TITLE_RU['DEFAULT'],
+    [],
   );
 
   const getIngredientsByType = useCallback(
-    type => ingredients.filter(ingredient => ingredient.type === INGREDIENT_TYPE[type]),
-    [ingredients]
+    (type: IngredientType): Ingredient[] => ingredients.filter(
+      (ingredient: Ingredient) => ingredient.type === INGREDIENT_TYPE[type]),
+    [ingredients],
   );
 
   const getSelectedIngredientsByType = useCallback(
-    type => {
+    (type: IngredientType) => {
       const value = INGREDIENT_TYPE[type];
       return value === INGREDIENT_TYPE.BUN
         ? [{ id: selectedIngredientIds[value] }]
         : selectedIngredientIds.ingredients.filter(
           selected => ingredients.find(
-            ingredient => ingredient.type === value && ingredient._id === selected.id));
+            (ingredient: Ingredient) => ingredient.type === value && ingredient._id === selected.id));
     },
     [ingredients, selectedIngredientIds]);
 
-  const handleIngredientClick = ingredient => {
+  const handleIngredientClick = (ingredient: Ingredient) => {
     navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
   };
 
-  const handleScroll = e => {
-    const containerPos = e.target.getBoundingClientRect().top;
+  const handleScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
+    const containerPos = e.currentTarget.getBoundingClientRect().top;
     const newActiveTab = ingredientTypes.reduce((prev, curr) => {
       const prevPos = refs[prev].getBoundingClientRect().top;
       const currPos = refs[curr].getBoundingClientRect().top;
@@ -62,7 +64,7 @@ const BurgerIngredients = () => {
     setActiveTab(newActiveTab);
   };
 
-  const handleTabClick = value => {
+  const handleTabClick = (value: string) => {
     refs[value].scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -89,7 +91,7 @@ const BurgerIngredients = () => {
             selectedIngredients={getSelectedIngredientsByType(type)}
             onIngredientClick={handleIngredientClick}
             refs={refs}
-          />
+          />,
         )}
       </ScrollablePanel>
     </section>
