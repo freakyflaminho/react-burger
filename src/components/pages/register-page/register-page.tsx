@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -18,7 +18,7 @@ const RegisterPage = () => {
     }
   }, [isSuccess, user, navigate]);
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -33,7 +33,7 @@ const RegisterPage = () => {
         text: 'Войти',
         to: '/login',
       },
-    }
+    },
   ];
 
   return (
@@ -49,8 +49,7 @@ const RegisterPage = () => {
         placeholder="Имя"
         autoComplete="username"
         value={form.name}
-        onChange={handleChange}
-      />
+        onChange={handleChange} />
       <EmailInput
         name="email"
         autoComplete="email"
