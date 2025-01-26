@@ -8,7 +8,9 @@ import store from './services/store';
 
 import './index.css';
 
-createRoot(document.getElementById('root')).render(
+const root = createRoot(document.getElementById('root')!);
+
+root.render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
