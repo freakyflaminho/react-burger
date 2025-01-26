@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import DataLoader from '../../data-loader/DataLoader';
@@ -22,7 +22,7 @@ const ProfileEditPage = () => {
     || form.email !== actualUserData?.user.email
     || form.password !== '';
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -34,7 +34,7 @@ const ProfileEditPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateUser(form);
   };
@@ -61,7 +61,7 @@ const ProfileEditPage = () => {
         <EmailInput
           name="email"
           placeholder="Логин"
-          icon="EditIcon"
+          isIcon={true}
           disabled={false}
           autoComplete="email"
           errorText="Некорректный e-mail"
