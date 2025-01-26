@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -8,10 +7,19 @@ import { changeIngredientPosition, removeIngredient } from '../../services/slice
 
 import styles from './burger-constructor-draggable-card.module.css';
 
-const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraClass }) => {
+type Props = {
+  id: string,
+  index: number,
+  text: string,
+  price: number,
+  image: string,
+  extraClass?: string,
+};
+
+const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraClass }: Props) => {
 
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient_position',
@@ -21,9 +29,8 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
     }),
   });
 
-  const [{ handlerId }, dropRef] = useDrop({
+  const [, dropRef] = useDrop<{ id: string, index: number }>({
     accept: 'ingredient_position',
-
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId(),
     }),
@@ -34,14 +41,18 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
 
       const dragIndex = item.index;
       const hoverIndex = index;
-
       if (dragIndex === hoverIndex) {
         return;
       }
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+      if (!clientOffset) {
+        return;
+      }
+
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -55,7 +66,7 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
       dispatch(changeIngredientPosition(dragIndex, hoverIndex));
 
       item.index = hoverIndex;
-    }
+    },
   });
 
   dragRef(dropRef(ref));
@@ -76,15 +87,6 @@ const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraCl
       />
     </div>
   );
-};
-
-BurgerConstructorDraggableCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  extraClass: PropTypes.string,
 };
 
 export default React.memo(BurgerConstructorDraggableCard);

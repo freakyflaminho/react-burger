@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
 import doneImage from '../../images/done.svg';
 import styles from './order-details.module.css';
 
-const OrderDetails = ({ orderId }) => {
+type Props = {
+  orderId: number;
+};
+
+const OrderDetails = ({ orderId }: Props) => {
   return (
     <>
       <h3 className={`${styles.order_number} text text_type_digits-large mb-8`}>
@@ -20,10 +23,6 @@ const OrderDetails = ({ orderId }) => {
       </p>
     </>
   );
-};
-
-OrderDetails.propTypes = {
-  orderId: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

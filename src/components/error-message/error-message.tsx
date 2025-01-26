@@ -1,10 +1,14 @@
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './error-message.module.css';
-import PropTypes from 'prop-types';
 
 const DEFAULT_ERROR_MESSAGE = 'Ошибка загрузки данных...';
 
-const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onRetry }) => {
+type Props = {
+  text?: string;
+  onRetry: () => void;
+};
+
+const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onRetry }: Props) => {
   return (
     <div className={styles.error}>
       <p className="text text_type_main-medium">
@@ -20,11 +24,6 @@ const ErrorMessage = ({ text = DEFAULT_ERROR_MESSAGE, onRetry }) => {
       </Button>
     </div>
   );
-};
-
-ErrorMessage.propTypes = {
-  text: PropTypes.string,
-  onRetry: PropTypes.func.isRequired,
 };
 
 export default ErrorMessage;

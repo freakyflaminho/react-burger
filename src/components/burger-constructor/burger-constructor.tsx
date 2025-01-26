@@ -18,43 +18,49 @@ import { isAuth } from '../../services/slices/auth-slice';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
 
 import { INGREDIENT_TYPE } from '../../utils/consts';
+import { DroppedIngredient, Ingredient, SelectedIngredients } from '../../utils/types.ts';
+
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isUserAuth = useSelector(isAuth);
-  const selectedIngredientIds = useSelector(selectedIngredientsSelector);
+  const isUserAuth: boolean = useSelector(isAuth);
+  const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
   const { data: { data: ingredients } } = useGetIngredientsState();
   const [useCreateOrderQuery, order] = useCreateOrderMutation();
 
   const selectedBun = useMemo(
-    () => ingredients.find(ingredients => ingredients._id === selectedIngredientIds.bun),
-    [ingredients, selectedIngredientIds.bun]
+    () => ingredients.find((ingredient: Ingredient) => ingredient._id === selectedIngredientIds.bun),
+    [ingredients, selectedIngredientIds.bun],
   );
 
   const selectedIngredients = useMemo(
     () => selectedIngredientIds.ingredients.map(
       selected => {
-        const ingredient = ingredients.find(ingredient => ingredient._id === selected.id);
+        const ingredient = ingredients.find((ingredient: Ingredient) => ingredient._id === selected.id);
         return { ...ingredient, posId: selected.posId };
       }),
     [ingredients, selectedIngredientIds.ingredients]);
 
   const totalPrice = useMemo(
     () => (selectedBun?.price ?? 0) * 2 +
-      selectedIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0),
+      selectedIngredients.reduce((sum: number, ingredient: Ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedIngredients]);
 
   const isOrderAvailable = selectedBun && selectedIngredients.length;
 
   const createOrder = () => {
-    !isUserAuth && navigate('/login');
+    if (!isUserAuth) {
+      navigate('/login');
+    }
+
     const ids = [
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
-      selectedIngredientIds.bun
+      selectedIngredientIds.bun,
     ];
+
     useCreateOrderQuery(ids);
   };
 
@@ -62,17 +68,18 @@ const BurgerConstructor = () => {
     order.reset();
   };
 
-  const [{ isHover, canDrop }, dropTarget] = useDrop({
+  const [{ canDrop }, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(ingredient) {
-      ingredient.type === INGREDIENT_TYPE.BUN ?
-        dispatch(addBun(ingredient.id)) :
-        dispatch(addIngredient(ingredient.id));
+    drop(ingredient: DroppedIngredient) {
+      if (ingredient.type === INGREDIENT_TYPE.BUN) {
+        dispatch(addBun(ingredient.id));
+      }
+      dispatch(addIngredient(ingredient.id));
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
       canDrop: monitor.canDrop(),
-    })
+    }),
   });
 
   const dropClass = canDrop ? styles.hover : undefined;
@@ -112,7 +119,7 @@ const BurgerConstructor = () => {
                       image={selectedIngredient.image}
                       extraClass={dropClass}
                     />
-                  </li>
+                  </li>,
                 )}
               </ul>
             </ScrollablePanel> :
