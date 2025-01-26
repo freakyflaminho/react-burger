@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import CustomForm from '../../custom-form/custom-form';
@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [form, setValue] = useState({ email: '', password: '' });
   const [login, { isSuccess, isLoading, isFetching, isError }] = useLoginMutation();
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
