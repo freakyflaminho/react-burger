@@ -73,8 +73,9 @@ const BurgerConstructor = () => {
     drop(ingredient: DroppedIngredient) {
       if (ingredient.type === INGREDIENT_TYPE.BUN) {
         dispatch(addBun(ingredient.id));
+      } else {
+        dispatch(addIngredient(ingredient.id));
       }
-      dispatch(addIngredient(ingredient.id));
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
