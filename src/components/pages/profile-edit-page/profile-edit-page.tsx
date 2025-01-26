@@ -6,15 +6,17 @@ import DataLoader from '../../data-loader/DataLoader';
 import { useGetUserQuery, useUpdateUserMutation } from '../../../services/api/user-api';
 
 import styles from './profile-edit-page.module.css';
+import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
+import { GetUserResponse, UpdateUserRequest, UpdateUserResponse } from '../../../utils/api-types.ts';
 
 const ProfileEditPage = () => {
   const [form, setValue] = useState({ name: '', email: '', password: '' });
-  const fetchedData = useGetUserQuery();
-  const [updateUser, updatedData] = useUpdateUserMutation();
+  const fetchedData = useGetUserQuery<TypedUseQueryHookResult<GetUserResponse, FetchArgs, BaseQueryFn>>();
+  const [updateUser, updatedData] = useUpdateUserMutation<TypedUseQueryHookResult<UpdateUserResponse, FetchArgs, BaseQueryFn>>();
 
   const actualData = updatedData.isUninitialized ? fetchedData : updatedData;
   const retry = actualData.refetch
-    || (() => updateUser(actualData.originalArgs));
+    || (() => updateUser(actualData.originalArgs as UpdateUserRequest));
 
   const { data: actualUserData } = actualData;
 
@@ -28,8 +30,8 @@ const ProfileEditPage = () => {
 
   const handleCancel = () => {
     setValue({
-      name: actualUserData.user.name,
-      email: actualUserData.user.email,
+      name: actualUserData?.user.name || '',
+      email: actualUserData?.user.email || '',
       password: '',
     });
   };

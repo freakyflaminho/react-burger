@@ -8,7 +8,7 @@ import { useLoginMutation } from '../../../services/api/user-api';
 const LoginPage = () => {
 
   const [form, setValue] = useState({ email: '', password: '' });
-  const [login, { isSuccess, isLoading, isFetching, isError }] = useLoginMutation();
+  const [login, { isSuccess, isLoading, isError }] = useLoginMutation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -40,7 +40,7 @@ const LoginPage = () => {
       title="Вход"
       submitButtonText="Войти"
       onSubmit={handleLogin}
-      isFetching={isLoading || isFetching || isSuccess}
+      isFetching={isLoading || isSuccess}
       additionalActions={additionalActions}
     >
       <EmailInput

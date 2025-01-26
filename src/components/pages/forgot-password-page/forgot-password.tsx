@@ -10,7 +10,7 @@ const ForgotPasswordPage = () => {
 
   const [form, setValue] = useState({ email: '' });
   const navigate = useNavigate();
-  const [resetPassword, { data: user, isSuccess, isLoading, isFetching }] = useResetPasswordMutation();
+  const [resetPassword, { data: user, isSuccess, isLoading }] = useResetPasswordMutation();
 
   useEffect(() => {
     if (isSuccess && user?.success) {
@@ -41,7 +41,7 @@ const ForgotPasswordPage = () => {
       title="Восстановление пароля"
       submitButtonText="Восстановить"
       onSubmit={handleRestorePassword}
-      isFetching={isLoading || isFetching || isSuccess}
+      isFetching={isLoading || isSuccess}
       additionalActions={additionalActions}
     >
       <EmailInput

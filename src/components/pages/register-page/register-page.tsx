@@ -10,7 +10,7 @@ const RegisterPage = () => {
 
   const [form, setValue] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
-  const [register, { data: user, isSuccess, isLoading, isFetching }] = useRegisterMutation();
+  const [register, { data: user, isSuccess, isLoading }] = useRegisterMutation();
 
   useEffect(() => {
     if (isSuccess && user?.success) {
@@ -41,7 +41,7 @@ const RegisterPage = () => {
       title="Регистрация"
       submitButtonText="Зарегистрироваться"
       onSubmit={handleRegister}
-      isFetching={isLoading || isFetching || isSuccess}
+      isFetching={isLoading || isSuccess}
       additionalActions={additionalActions}
     >
       <Input

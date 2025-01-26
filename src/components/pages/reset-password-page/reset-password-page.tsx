@@ -11,16 +11,7 @@ const ResetPasswordPage = () => {
   const [form, setValue] = useState({ password: '', token: '' });
   const navigate = useNavigate();
   const location = useLocation();
-  const [
-    changePassword,
-    {
-      data: user,
-      isSuccess,
-      isLoading,
-      isFetching,
-      isError,
-    },
-  ] = useChangePasswordMutation();
+  const [changePassword, { data: user, isSuccess, isLoading, isError }] = useChangePasswordMutation();
 
   useEffect(() => {
     if (isSuccess && user?.success) {
@@ -55,7 +46,7 @@ const ResetPasswordPage = () => {
       title="Восстановление пароля"
       submitButtonText="Сохранить"
       onSubmit={handleRestorePassword}
-      isFetching={isLoading || isFetching || isSuccess}
+      isFetching={isLoading || isSuccess}
       additionalActions={additionalActions}
     >
       <input
