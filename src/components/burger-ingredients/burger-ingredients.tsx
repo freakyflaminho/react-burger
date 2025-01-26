@@ -15,7 +15,7 @@ const BurgerIngredients = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: { data: ingredients } } = useGetIngredientsState();
+  const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
   const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
 
   const ingredientTypes = Object.keys(INGREDIENT_TYPE) as (IngredientType)[];

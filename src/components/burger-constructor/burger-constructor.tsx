@@ -28,8 +28,8 @@ const BurgerConstructor = () => {
   const navigate = useNavigate();
   const isUserAuth: boolean = useSelector(isAuth);
   const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
-  const { data: { data: ingredients } } = useGetIngredientsState();
   const [useCreateOrderQuery, order] = useCreateOrderMutation();
+  const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
 
   const selectedBun = useMemo(
     () => ingredients.find((ingredient: Ingredient) => ingredient._id === selectedIngredientIds.bun),

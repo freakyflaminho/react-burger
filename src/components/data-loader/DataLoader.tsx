@@ -1,10 +1,11 @@
 import React from 'react';
 import Loader from '../loader/loader';
 import ErrorMessage from '../error-message/error-message';
-import { LoadingState } from '../../utils/types.ts';
+import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
+import { ResponseResult } from '../../utils/api-types.ts';
 
 type Props = {
-  data: LoadingState;
+  data: TypedUseQueryHookResult<ResponseResult, FetchArgs, BaseQueryFn>;
   onRetry: () => void;
   children: React.ReactNode;
 };

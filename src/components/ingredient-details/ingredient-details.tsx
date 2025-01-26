@@ -5,10 +5,13 @@ import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
 import { Ingredient } from '../../utils/types.ts';
 
 import styles from './ingredient-details.module.css';
+import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
+import { GetIngredientsResponse } from '../../utils/api-types.ts';
 
 const IngredientDetails = () => {
   const { id } = useParams();
-  const data = useGetIngredientsQuery();
+  const data = useGetIngredientsQuery<TypedUseQueryHookResult<GetIngredientsResponse, FetchArgs, BaseQueryFn>>();
+  console.log(data);
 
   const ingredients = data?.data?.data;
   const ingredient = ingredients?.find((el: Ingredient) => el._id === id);
