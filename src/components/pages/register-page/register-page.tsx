@@ -44,6 +44,7 @@ const RegisterPage = () => {
       isFetching={isLoading || isSuccess}
       additionalActions={additionalActions}
     >
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         name="name"
         placeholder="Имя"

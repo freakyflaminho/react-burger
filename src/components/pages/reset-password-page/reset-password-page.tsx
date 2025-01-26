@@ -61,6 +61,7 @@ const ResetPasswordPage = () => {
         value={form.password}
         onChange={handleChange}
       />
+      {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
       <Input
         name="token"
         placeholder="Введите код из письма"

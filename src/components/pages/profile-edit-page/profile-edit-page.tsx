@@ -52,6 +52,7 @@ const ProfileEditPage = () => {
   return (
     <DataLoader data={actualData} onRetry={retry}>
       <form className={styles.container} onSubmit={handleSubmit}>
+        {/* @ts-expect-error: onPointerEnterCapture, onPointerLeaveCapture warnings otherwise */}
         <Input
           name="name"
           placeholder="Имя"
