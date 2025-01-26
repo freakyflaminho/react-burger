@@ -21,6 +21,8 @@ import { INGREDIENT_TYPE } from '../../utils/consts';
 import { DroppedIngredient, Ingredient, SelectedIngredients } from '../../utils/types.ts';
 
 import styles from './burger-constructor.module.css';
+import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
+import { CreateOrderResponse } from '../../utils/api-types.ts';
 
 const BurgerConstructor = () => {
 
@@ -28,7 +30,7 @@ const BurgerConstructor = () => {
   const navigate = useNavigate();
   const isUserAuth: boolean = useSelector(isAuth);
   const selectedIngredientIds: SelectedIngredients = useSelector(selectedIngredientsSelector);
-  const [useCreateOrderQuery, order] = useCreateOrderMutation();
+  const [createOrder, order] = useCreateOrderMutation<TypedUseQueryHookResult<CreateOrderResponse, FetchArgs, BaseQueryFn>>();
   const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
 
   const selectedBun = useMemo(
@@ -51,7 +53,7 @@ const BurgerConstructor = () => {
 
   const isOrderAvailable = selectedBun && selectedIngredients.length;
 
-  const createOrder = () => {
+  const handleCreateOrderClick = () => {
     if (!isUserAuth) {
       navigate('/login');
     }
@@ -61,7 +63,7 @@ const BurgerConstructor = () => {
       selectedIngredientIds.bun,
     ];
 
-    useCreateOrderQuery(ids);
+    createOrder(ids);
   };
 
   const closeOrderDetails = () => {
@@ -85,7 +87,7 @@ const BurgerConstructor = () => {
 
   const dropClass = canDrop ? styles.hover : undefined;
 
-  const orderId = order?.data?.order?.number || 0;
+  const orderId = order.data?.order.number || 0;
 
   return (
     <section>
@@ -155,7 +157,7 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={createOrder}
+          onClick={handleCreateOrderClick}
           disabled={!isOrderAvailable}
         >
           Оформить заказ
@@ -163,7 +165,7 @@ const BurgerConstructor = () => {
 
         {!order.isUninitialized &&
           <Modal onClose={closeOrderDetails}>
-            <DataLoader data={order} onRetry={createOrder}>
+            <DataLoader data={order} onRetry={handleCreateOrderClick}>
               <OrderDetails orderId={orderId} />
             </DataLoader>
           </Modal>
