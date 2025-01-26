@@ -1,11 +1,15 @@
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router';
 
-import PropTypes from 'prop-types';
-
 import { isAuth } from '../../services/slices/auth-slice';
 
-const ProtectedRouteElement = ({ forAuth, children }) => {
+type Props = {
+  forAuth: boolean;
+  children: React.ReactNode;
+}
+
+const ProtectedRouteElement = ({ forAuth, children }: Props) => {
   const location = useLocation();
   const isUserAuth = useSelector(isAuth);
 
@@ -16,11 +20,6 @@ const ProtectedRouteElement = ({ forAuth, children }) => {
   }
 
   return children;
-};
-
-ProtectedRouteElement.propTypes = {
-  forAuth: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default ProtectedRouteElement;
