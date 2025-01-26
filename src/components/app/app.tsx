@@ -35,7 +35,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkAuth());
-  }, [dispatch, checkAuth]);
+  }, [dispatch]);
 
   return (
     <div className={styles.container}>
