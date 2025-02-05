@@ -59,6 +59,7 @@ const BurgerConstructor = () => {
     }
 
     const ids = [
+      selectedIngredientIds.bun,
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
       selectedIngredientIds.bun,
     ] as string[];
