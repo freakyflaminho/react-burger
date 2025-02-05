@@ -1,0 +1,16 @@
+.container {
+  composes: mt-25 from global;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.progressBlocksContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.orderColor {
+  color: #00CCCC;
+}
