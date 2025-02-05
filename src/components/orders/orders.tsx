@@ -30,7 +30,6 @@ const Orders = ({ header, orders, ingredients }: Props) => {
                 number={order.number}
                 createdDate={order.createdAt}
                 name={order.name}
-                status={order.status}
                 ingredients={ingredientsImages}
                 price={totalPrice}
               />
