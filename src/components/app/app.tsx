@@ -15,7 +15,9 @@ import ResetPasswordPage from '../pages/reset-password-page/reset-password-page'
 import IngredientPage from '../pages/ingredient-page/ingredient-page';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrdersFeedPage from '../pages/orders-feed-page/orders-feed-page';
+import OrderPage from '../pages/order-page/order-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
+import OrderModal from '../order-modal/order-modal.tsx';
 import Modal from '../modal/modal';
 
 import { checkAuth } from '../../services/slices/auth-slice';
@@ -29,7 +31,7 @@ const App = () => {
 
   const background = location.state && location.state.background;
 
-  const closeIngredientModal = () => {
+  const closeModal = () => {
     navigate(-1);
   };
 
@@ -46,14 +48,7 @@ const App = () => {
           element={<ConstructorPage />}
         />
 
-        <Route
-          path="/feed"
-          element={
-            <ProtectedRouteElement forAuth={true}>
-              <OrdersFeedPage />
-            </ProtectedRouteElement>
-          }
-        />
+        <Route path="/feed" element={<OrdersFeedPage />} />
 
         <Route
           path="/profile"
@@ -109,6 +104,11 @@ const App = () => {
         />
 
         <Route
+          path="feed/:number"
+          element={<OrderPage />}
+        />
+
+        <Route
           path="*"
           element={<NotFoundPage />}
         />
@@ -116,10 +116,16 @@ const App = () => {
 
       {background && (
         <Routes>
-          <Route path="ingredients/:id" element={
-            <Modal onClose={closeIngredientModal} title="Детали ингредиента">
-              <IngredientDetails />
-            </Modal>}
+          <Route
+            path="ingredients/:id"
+            element={
+              <Modal onClose={closeModal} title="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>}
+          />
+          <Route
+            path="feed/:number"
+            element={<OrderModal onClose={closeModal} />}
           />
         </Routes>
       )}

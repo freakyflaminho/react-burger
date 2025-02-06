@@ -14,6 +14,10 @@ export type Ingredient = {
   image_large: string;
 };
 
+export type IngredientWithCount = Ingredient & {
+  count: number;
+}
+
 export type SelectedIngredient = Ingredient & {
   posId: string;
 }

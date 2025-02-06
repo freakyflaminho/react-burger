@@ -1,4 +1,5 @@
 import { Ingredient } from './types.ts';
+import { OrderStatusType } from './websocket/ws-api-types.ts';
 
 export type ResponseResult = {
   success: boolean;
@@ -33,6 +34,21 @@ export type CreateOrderResponse = ResponseResult & {
     number: number;
     price: number;
   };
+};
+
+export type Order = {
+  _id: string;
+  ingredients: string[];
+  owner: string;
+  status: OrderStatusType;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+}
+
+export type GetOrderResponse = ResponseResult & {
+  orders: Order[];
 };
 
 export type UserCredentials = {

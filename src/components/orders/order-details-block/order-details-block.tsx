@@ -14,11 +14,16 @@ type Props = {
   status?: OrderStatusType;
   ingredients: string[];
   price: number;
+  onClick: (orderNumber: number) => void;
 };
 
-const OrderDetailsBlock = ({ number, createdDate, name, status, ingredients, price }: Props) => {
+const OrderDetailsBlock = ({ number, createdDate, name, status, ingredients, price, onClick }: Props) => {
+  const handleOnClick = () => {
+    onClick(number);
+  };
+
   return (
-    <article className={styles.container}>
+    <article className={styles.container} onClick={handleOnClick}>
 
       <div className={styles.topSection}>
         <p className={styles.number}>{`#${number.toString().padStart(6, '0')}`}</p>

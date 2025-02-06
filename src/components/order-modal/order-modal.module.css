@@ -1,0 +1,7 @@
+.headerTextClass {
+  composes: text text_type_digits-default from global;
+}
+
+.contentClass {
+  composes: p-10 from global;
+}
