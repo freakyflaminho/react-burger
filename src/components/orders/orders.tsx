@@ -8,7 +8,7 @@ import { Ingredient, ObjectMap } from '../../utils/types.ts';
 import styles from './orders.module.css';
 
 type Props = {
-  header: string;
+  header?: string;
   orders: WSOrder[];
   ingredients: ObjectMap<Ingredient>;
 };
@@ -18,7 +18,7 @@ const Orders = ({ header, orders, ingredients }: Props) => {
   const location = useLocation();
 
   const handleOnOrderClick = (orderNumber: number) => {
-    navigate(`/feed/${orderNumber}`, { state: { background: location } });
+    navigate(`${location.pathname}/${orderNumber}`, { state: { background: location } });
   };
 
   return (

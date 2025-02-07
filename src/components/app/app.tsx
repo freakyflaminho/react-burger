@@ -30,6 +30,9 @@ const App = () => {
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
+  if (background) {
+    background.state = location;
+  }
 
   const closeModal = () => {
     navigate(-1);
@@ -61,6 +64,15 @@ const App = () => {
           <Route index element={<ProfileEditPage />} />
           <Route path="orders" element={<ProfileOrdersPage />} />
         </Route>
+
+        <Route
+          path="/profile/orders/:number"
+          element={
+            <ProtectedRouteElement forAuth={true}>
+              <OrderPage />
+            </ProtectedRouteElement>
+          }
+        />
 
         <Route
           path="login"
@@ -125,6 +137,10 @@ const App = () => {
           />
           <Route
             path="feed/:number"
+            element={<OrderModal onClose={closeModal} />}
+          />
+          <Route
+            path="profile/orders/:number"
             element={<OrderModal onClose={closeModal} />}
           />
         </Routes>

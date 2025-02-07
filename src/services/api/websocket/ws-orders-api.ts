@@ -64,6 +64,7 @@ export const wsOrdersApi = wsApi.injectEndpoints({
 
 export const {
   useGetAllOrdersQuery,
+  useGetUserOrdersQuery,
 } = wsOrdersApi;
 
 export const useGetAllOrdersState = wsOrdersApi.endpoints.getAllOrders.useQueryState;

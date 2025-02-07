@@ -10,15 +10,15 @@ type Props = {
 }
 
 const ProtectedRouteElement = ({ forAuth, children }: Props) => {
-  const location = useLocation();
+  const currLocation = useLocation();
+  const prevLocation = currLocation.state;
   const isUserAuth = useSelector(isAuth);
 
   if (!forAuth && isUserAuth) {
-    return <Navigate to={location.state?.from || '/'} replace />;
+    return <Navigate to={prevLocation.pathname || '/'} state={prevLocation.state} replace />;
   } else if (forAuth && !isUserAuth) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to="/login" state={prevLocation || currLocation} replace />;
   }
-
   return children;
 };
 
