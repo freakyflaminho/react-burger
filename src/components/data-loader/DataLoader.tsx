@@ -21,7 +21,7 @@ const DataLoader = ({ data, onRetry, children }: Props) => {
 
   return (
     isError || (!success && message) ? <ErrorMessage onRetry={onRetry} /> :
-      isLoading || isFetching || (!success && !message) ? <Loader /> :
+      isLoading || isFetching || data.data && (!success && !message) ? <Loader /> :
         children
   );
 };

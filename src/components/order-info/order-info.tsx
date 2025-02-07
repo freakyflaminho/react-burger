@@ -9,7 +9,9 @@ import { useGetOrdersState, useLazyGetOrderQuery } from '../../services/api/orde
 import { useGetIngredientsState, useLazyGetIngredientsQuery } from '../../services/api/ingredients-api';
 import { useGetAllOrdersState, useGetUserOrdersState } from '../../services/api/websocket/ws-orders-api.ts';
 import { ORDER_STATUS } from '../../utils/consts';
+import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
 import { Ingredient, IngredientWithCount, ObjectMap } from '../../utils/types';
+import { GetIngredientsResponse } from '../../utils/api-types.ts';
 
 import styles from './order-info.module.css';
 
@@ -19,7 +21,7 @@ type Props = {
 
 const OrderInfo = ({ number }: Props) => {
 
-  const [getIngredients] = useLazyGetIngredientsQuery();
+  const [getIngredients, ingredientsData] = useLazyGetIngredientsQuery<TypedUseQueryHookResult<GetIngredientsResponse, FetchArgs, BaseQueryFn>>();
   const [getOrder] = useLazyGetOrderQuery();
 
   const ingredientsState = useGetIngredientsState();
@@ -67,7 +69,7 @@ const OrderInfo = ({ number }: Props) => {
   const totalPrice = preparedIngredients.reduce((result, ingredient) => result + ingredient.price * ingredient.count, 0);
 
   return (
-    <DataLoader data={ingredientsState} onRetry={() => getIngredients()}>
+    <DataLoader data={ingredientsData} onRetry={() => getIngredients()}>
       <div className={styles.topSection}>
         <p className={styles.name}>
           {name}
