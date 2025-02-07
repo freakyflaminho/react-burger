@@ -3,6 +3,7 @@ import { OrderStatusType } from './websocket/ws-api-types.ts';
 
 export type ResponseResult = {
   success: boolean;
+  message?: string;
 };
 
 export type TokenPair = {

@@ -1,14 +1,15 @@
-import { wsApi } from './ws-api.ts';
-import { getAccessTokenWithoutBearer, isRefreshTokenExists, removeTokens } from '../../../utils/localstorage-utils.ts';
-import { userApi } from '../user-api.ts';
-import { openWebSocket } from '../../../utils/websocket/websocket.ts';
-import { WS_ALL_ORDERS_PATH, WS_BASE_URL, WS_USER_ORDERS_PATH } from '../../../utils/websocket/websocket-api.ts';
+import { wsApi } from './ws-api';
+import { getAccessTokenWithoutBearer, isRefreshTokenExists, removeTokens } from '../../../utils/localstorage-utils';
+import { userApi } from '../user-api';
+import { openWebSocket } from '../../../utils/websocket/websocket';
+import { WS_ALL_ORDERS_PATH, WS_BASE_URL, WS_USER_ORDERS_PATH } from '../../../utils/websocket/websocket-api';
+import { WSAllOrdersResponse } from '../../../utils/websocket/ws-api-types.ts';
 
 export const wsOrdersApi = wsApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllOrders: builder.query<[], void>({
+    getAllOrders: builder.query<WSAllOrdersResponse, void>({
       queryFn: () => ({
-        data: [],
+        data: {} as WSAllOrdersResponse,
       }),
       async onCacheEntryAdded(_arg, { cacheDataLoaded, updateCachedData, cacheEntryRemoved }) {
         await cacheDataLoaded;
@@ -16,7 +17,7 @@ export const wsOrdersApi = wsApi.injectEndpoints({
         const ws = openWebSocket(url);
 
         const listener = async (event: MessageEvent) => {
-          const data = JSON.parse(event.data);
+          const data: WSAllOrdersResponse = JSON.parse(event.data);
           updateCachedData(() => data);
         };
         ws.addEventListener('message', listener);
@@ -27,9 +28,9 @@ export const wsOrdersApi = wsApi.injectEndpoints({
       keepUnusedDataFor: 0,
     }),
 
-    getUserOrders: builder.query<[], void>({
+    getUserOrders: builder.query<WSAllOrdersResponse, void>({
       queryFn: () => ({
-        data: [],
+        data: {} as WSAllOrdersResponse,
       }),
       async onCacheEntryAdded(_arg, { cacheDataLoaded, updateCachedData, cacheEntryRemoved, dispatch }) {
         await cacheDataLoaded;
@@ -37,7 +38,7 @@ export const wsOrdersApi = wsApi.injectEndpoints({
         let ws = openWebSocket(url, getAccessTokenWithoutBearer());
 
         const listener = async (event: MessageEvent) => {
-          const data = JSON.parse(event.data);
+          const data: WSAllOrdersResponse = JSON.parse(event.data);
           if (data && !data.success && data.message === 'Invalid or missing token') {
             if (!isRefreshTokenExists()) {
               removeTokens();
@@ -62,6 +63,8 @@ export const wsOrdersApi = wsApi.injectEndpoints({
 });
 
 export const {
-  useGetUserOrdersQuery,
   useGetAllOrdersQuery,
 } = wsOrdersApi;
+
+export const useGetAllOrdersState = wsOrdersApi.endpoints.getAllOrders.useQueryState;
+export const useGetUserOrdersState = wsOrdersApi.endpoints.getUserOrders.useQueryState;

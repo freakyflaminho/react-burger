@@ -5,39 +5,55 @@ import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import IngredientCard from './ingredient-card/ingredient-card';
 import PriceBlock from '../price-block/price-block';
 
-import { useGetOrderQuery } from '../../services/api/order-api';
-import { useGetIngredientsQuery } from '../../services/api/ingredients-api';
+import { useGetOrdersState, useLazyGetOrderQuery } from '../../services/api/order-api';
+import { useGetIngredientsState, useLazyGetIngredientsQuery } from '../../services/api/ingredients-api';
+import { useGetAllOrdersState, useGetUserOrdersState } from '../../services/api/websocket/ws-orders-api.ts';
 import { ORDER_STATUS } from '../../utils/consts';
-import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
 import { Ingredient, IngredientWithCount, ObjectMap } from '../../utils/types';
-import { GetOrderResponse } from '../../utils/api-types';
 
 import styles from './order-info.module.css';
 
 type Props = {
-  number: string;
+  number: number;
 };
 
 const OrderInfo = ({ number }: Props) => {
-  const orderData = useGetOrderQuery<TypedUseQueryHookResult<GetOrderResponse, FetchArgs, BaseQueryFn>>(number);
-  const ingredientsData = useGetIngredientsQuery();
 
-  const order = orderData?.data?.orders[0];
+  const [getIngredients] = useLazyGetIngredientsQuery();
+  const [getOrder] = useLazyGetOrderQuery();
+
+  const ingredientsState = useGetIngredientsState();
+  const allOrdersState = useGetAllOrdersState();
+  const userOrdersState = useGetUserOrdersState();
+  const orderState = useGetOrdersState(number);
+
+  const order = allOrdersState.data?.orders?.find(order => order.number === number)
+    || userOrdersState.data?.orders?.find(order => order.number === number)
+    || orderState.data?.orders[0];
+
+  if (!order && orderState.isUninitialized) {
+    getOrder(number);
+  }
+
+  if (ingredientsState.isUninitialized) {
+    getIngredients();
+  }
+
   const { name = '', status = 'created', createdAt = '' } = order || {};
 
   const ingredientsMap = useMemo(() => {
-    const ingredients = ingredientsData?.data?.data || [];
+    const ingredients = ingredientsState?.data?.data || [];
     return ingredients.reduce(
       (result: ObjectMap<Ingredient>, ingredient) => {
         result[ingredient._id] = ingredient;
         return result;
       }, {});
-  }, [ingredientsData]);
+  }, [ingredientsState]);
 
   const preparedIngredientsMap = useMemo(() => {
     const ingredients = order?.ingredients.map(id => ingredientsMap[id]) || [];
     return ingredients.reduce(
-      (result: ObjectMap<IngredientWithCount>, ingredient) => {
+      (result: ObjectMap<IngredientWithCount>, ingredient: Ingredient) => {
         result[ingredient._id] = {
           ...ingredient,
           count: (result[ingredient._id]?.count || 0) + 1,
@@ -50,7 +66,7 @@ const OrderInfo = ({ number }: Props) => {
   const totalPrice = preparedIngredients.reduce((result, ingredient) => result + ingredient.price * ingredient.count, 0);
 
   return (
-    <DataLoader data={orderData} onRetry={orderData.refetch}>
+    <DataLoader data={ingredientsState} onRetry={() => getIngredients()}>
       <div className={styles.topSection}>
         <p className={styles.name}>
           {name}

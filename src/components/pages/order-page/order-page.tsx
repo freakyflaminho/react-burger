@@ -8,7 +8,7 @@ const OrderPage = () => {
   return (
     <main className={styles.container}>
       <h1 className={styles.header}>{`#${number?.toString().padStart(6, '0')}`}</h1>
-      <OrderInfo number={number} />
+      <OrderInfo number={Number(number)} />
     </main>
   );
 };

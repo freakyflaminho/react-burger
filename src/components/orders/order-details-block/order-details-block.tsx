@@ -3,7 +3,7 @@ import IngredientComposition from './ingredient-composition/ingredient-compositi
 import PriceBlock from '../../price-block/price-block';
 
 import { ORDER_STATUS } from '../../../utils/consts.ts';
-import { OrderStatusType } from '../../../utils/websocket/ws-api-types.ts';
+import { OrderStatusType } from '../../../utils/types.ts';
 
 import styles from './order-details-block.module.css';
 

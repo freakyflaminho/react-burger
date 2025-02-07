@@ -11,7 +11,7 @@ export const orderApi = api.injectEndpoints({
         body: { ingredients },
       }),
     }),
-    getOrder: builder.query<GetOrderResponse, string>({
+    getOrder: builder.query<GetOrderResponse, number>({
       query: (orderNumber) => ({
         url: `${ORDER_PATH}/${orderNumber}`,
       }),
@@ -21,5 +21,7 @@ export const orderApi = api.injectEndpoints({
 
 export const {
   useCreateOrderMutation,
-  useGetOrderQuery,
+  useLazyGetOrderQuery,
 } = orderApi;
+
+export const useGetOrdersState = orderApi.endpoints.getOrder.useQueryState;

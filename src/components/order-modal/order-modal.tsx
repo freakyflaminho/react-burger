@@ -19,7 +19,7 @@ const OrderModal = ({ onClose }: Props) => {
       headerTextClass={styles.headerTextClass}
       contentClass={styles.contentClass}
     >
-      <OrderInfo number={number} />
+      <OrderInfo number={Number(number)} />
     </Modal>
   );
 };
