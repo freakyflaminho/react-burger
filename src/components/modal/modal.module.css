@@ -7,7 +7,7 @@
   transform: translate(-50%, -50%);
   background-color: var(--background-alt);
   border-radius: 40px;
-  z-index: 1;
+  z-index: 999;
 }
 
 .headerSection {
