@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import OrderDetailsBlock from './order-details-block/order-details-block';
 
+import { prepareOrderIngredients } from '../../utils/utils.ts';
 import { WSOrder } from '../../utils/websocket/ws-api-types';
 import { Ingredient, ObjectMap } from '../../utils/types.ts';
 
@@ -31,8 +32,9 @@ const Orders = ({ header, orders, ingredients }: Props) => {
 
       <ScrollablePanel extraClass={styles.scrollableBlock}>
         {orders.map((order) => {
-            const ingredientsImages = order.ingredients.map((id) => ingredients[id]?.image_mobile);
-            const totalPrice = order.ingredients.reduce((result, id) => result + ingredients[id]?.price, 0);
+            const preparedIngredients = prepareOrderIngredients(order.ingredients, ingredients)
+            const ingredientsImages = preparedIngredients.map((ingredient) => ingredient.image_mobile);
+            const totalPrice = preparedIngredients.reduce((result, ingredient) => result + ingredient.price, 0);
             return (
               <OrderDetailsBlock
                 key={order._id}

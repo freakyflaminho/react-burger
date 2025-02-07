@@ -10,7 +10,8 @@ import { useGetIngredientsState, useLazyGetIngredientsQuery } from '../../servic
 import { useGetAllOrdersState, useGetUserOrdersState } from '../../services/api/websocket/ws-orders-api.ts';
 import { ORDER_STATUS } from '../../utils/consts';
 import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
-import { Ingredient, IngredientWithCount, ObjectMap } from '../../utils/types';
+import { combineIngredients, prepareOrderIngredients } from '../../utils/utils.ts';
+import { Ingredient, ObjectMap } from '../../utils/types';
 import { GetIngredientsResponse } from '../../utils/api-types.ts';
 
 import styles from './order-info.module.css';
@@ -52,21 +53,13 @@ const OrderInfo = ({ number }: Props) => {
       }, {});
   }, [ingredientsState]);
 
-  const preparedIngredientsMap = useMemo(() => {
-    const ingredients = !Object.keys(ingredientsMap).length ? []
-      : order?.ingredients.map(id => ingredientsMap[id]) || [];
-    return ingredients.reduce(
-      (result: ObjectMap<IngredientWithCount>, ingredient: Ingredient) => {
-        result[ingredient._id] = {
-          ...ingredient,
-          count: (result[ingredient._id]?.count || 0) + 1,
-        };
-        return result;
-      }, {});
+  const combinedIngredients = useMemo(() => {
+    return order && combineIngredients(prepareOrderIngredients(order.ingredients, ingredientsMap)) || [];
   }, [order, ingredientsMap]);
 
-  const preparedIngredients = Object.values(preparedIngredientsMap);
-  const totalPrice = preparedIngredients.reduce((result, ingredient) => result + ingredient.price * ingredient.count, 0);
+  const totalPrice = combinedIngredients.reduce((result, ingredient) =>
+      result + ingredient.price * ingredient.count
+    , 0);
 
   return (
     <DataLoader data={ingredientsData} onRetry={() => getIngredients()}>
@@ -82,7 +75,7 @@ const OrderInfo = ({ number }: Props) => {
       <div className={styles.centerSection}>
         <p className={styles.ingredientsHeader}>Состав:</p>
         <ScrollablePanel extraClass={styles.scrollableBlock}>
-          {Object.values(preparedIngredients).map((ingredient, index) =>
+          {combinedIngredients.map((ingredient, index) =>
             <IngredientCard
               key={index}
               name={ingredient.name}
