@@ -51,7 +51,8 @@ const OrderInfo = ({ number }: Props) => {
   }, [ingredientsState]);
 
   const preparedIngredientsMap = useMemo(() => {
-    const ingredients = order?.ingredients.map(id => ingredientsMap[id]) || [];
+    const ingredients = !Object.keys(ingredientsMap).length ? []
+      : order?.ingredients.map(id => ingredientsMap[id]) || [];
     return ingredients.reduce(
       (result: ObjectMap<IngredientWithCount>, ingredient: Ingredient) => {
         result[ingredient._id] = {

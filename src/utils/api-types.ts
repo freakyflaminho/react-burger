@@ -1,5 +1,4 @@
-import { Ingredient } from './types.ts';
-import { OrderStatusType } from './websocket/ws-api-types.ts';
+import { Ingredient, OrderStatusType } from './types.ts';
 
 export type ResponseResult = {
   success: boolean;
