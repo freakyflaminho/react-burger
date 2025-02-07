@@ -1,11 +1,11 @@
-import { wsApi } from './ws-api';
-import { getAccessTokenWithoutBearer, isRefreshTokenExists, removeTokens } from '../../../utils/localstorage-utils';
+import { api } from '../api.ts';
 import { userApi } from '../user-api';
 import { openWebSocket } from '../../../utils/websocket/websocket';
+import { getAccessTokenWithoutBearer, isRefreshTokenExists, removeTokens } from '../../../utils/localstorage-utils';
 import { WS_ALL_ORDERS_PATH, WS_BASE_URL, WS_USER_ORDERS_PATH } from '../../../utils/websocket/websocket-api';
 import { WSAllOrdersResponse } from '../../../utils/websocket/ws-api-types.ts';
 
-export const wsOrdersApi = wsApi.injectEndpoints({
+export const wsOrdersApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAllOrders: builder.query<WSAllOrdersResponse, void>({
       queryFn: () => ({
