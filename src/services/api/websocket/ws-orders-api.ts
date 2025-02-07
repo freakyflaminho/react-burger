@@ -35,7 +35,7 @@ export const wsOrdersApi = api.injectEndpoints({
       async onCacheEntryAdded(_arg, { cacheDataLoaded, updateCachedData, cacheEntryRemoved, dispatch }) {
         await cacheDataLoaded;
         const url = `${WS_BASE_URL}${WS_USER_ORDERS_PATH}`;
-        let ws = openWebSocket(url, getAccessTokenWithoutBearer());
+        const ws = openWebSocket(url, getAccessTokenWithoutBearer());
 
         const listener = async (event: MessageEvent) => {
           const data: WSAllOrdersResponse = JSON.parse(event.data);
@@ -46,7 +46,7 @@ export const wsOrdersApi = api.injectEndpoints({
               const { data: { success } = {} } = await dispatch(userApi.endpoints.refreshToken.initiate());
               if (success) {
                 ws.close();
-                ws = openWebSocket(url, getAccessTokenWithoutBearer());
+                dispatch(wsOrdersApi.util.resetApiState());
               }
             }
           }
