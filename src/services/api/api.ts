@@ -6,6 +6,7 @@ import {
   FetchBaseQueryError,
   QueryReturnValue,
 } from '@reduxjs/toolkit/query/react';
+import { checkAuth } from '../slices/auth-slice.ts';
 import { BASE_URL, REFRESH_TOKEN_PATH } from '../../utils/api';
 import {
   getAccessToken,
@@ -41,6 +42,7 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> 
   if (result.error && [401, 403].some(errorCode => errorCode === result.error?.status)) {
     if (!isRefreshTokenExists()) {
       removeTokens();
+      api.dispatch(checkAuth());
     } else {
       const refreshResult = await baseQuery(getRefreshParams(), api, extraOptions) as QueryReturnValue<RefreshResponse>;
       if (refreshResult.data && refreshResult.data.success) {
@@ -49,6 +51,7 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> 
         result = await baseQuery(args, api, extraOptions);
       } else {
         removeTokens();
+        api.dispatch(checkAuth());
       }
     }
   }

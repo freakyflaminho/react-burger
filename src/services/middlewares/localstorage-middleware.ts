@@ -1,7 +1,8 @@
 import { createListenerMiddleware, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import { userApi } from '../api/user-api';
+import { checkAuth } from '../slices/auth-slice.ts';
 import { setTokens } from '../../utils/localstorage-utils';
 import { TokenPair } from '../../utils/api-types';
-import { userApi } from '../api/user-api';
 
 const localstorageMiddleware = createListenerMiddleware();
 
@@ -13,7 +14,7 @@ localstorageMiddleware.startListening({
   effect: (action: PayloadAction<TokenPair>, api) => {
     const { accessToken, refreshToken } = action.payload;
     setTokens(accessToken, refreshToken);
-    api.dispatch({ type: 'auth/checkAuth', payload: { isAuth: true } });
+    api.dispatch(checkAuth());
   },
 });
 
