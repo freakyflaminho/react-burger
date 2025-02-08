@@ -15,7 +15,7 @@ const ProtectedRouteElement = ({ forAuth, children }: Props) => {
   const isUserAuth = useAppSelector(isAuth);
 
   if (!forAuth && isUserAuth) {
-    return <Navigate to={prevLocation.pathname || '/'} state={prevLocation.state} replace />;
+    return <Navigate to={prevLocation?.pathname || '/'} state={prevLocation?.state} replace />;
   } else if (forAuth && !isUserAuth) {
     return <Navigate to="/login" state={prevLocation || currLocation} replace />;
   }
