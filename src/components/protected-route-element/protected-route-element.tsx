@@ -1,7 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router';
 
+import { useAppSelector } from '../../services/hooks';
 import { isAuth } from '../../services/slices/auth-slice';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 const ProtectedRouteElement = ({ forAuth, children }: Props) => {
   const currLocation = useLocation();
   const prevLocation = currLocation.state;
-  const isUserAuth = useSelector(isAuth);
+  const isUserAuth = useAppSelector(isAuth);
 
   if (!forAuth && isUserAuth) {
     return <Navigate to={prevLocation.pathname || '/'} state={prevLocation.state} replace />;

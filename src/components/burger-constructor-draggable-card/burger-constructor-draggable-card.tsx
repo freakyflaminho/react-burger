@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useAppDispatch } from '../../services/hooks.ts';
 import { changeIngredientPosition, removeIngredient } from '../../services/slices/burger-constructor-slice';
 
 import styles from './burger-constructor-draggable-card.module.css';
@@ -18,7 +18,7 @@ type Props = {
 
 const BurgerConstructorDraggableCard = ({ id, index, text, price, image, extraClass }: Props) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, dragRef] = useDrag({

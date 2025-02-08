@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 
 import AppHeader from '../app-header/app-header';
@@ -17,15 +16,16 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrdersFeedPage from '../pages/orders-feed-page/orders-feed-page';
 import OrderPage from '../pages/order-page/order-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
-import OrderModal from '../order-modal/order-modal.tsx';
+import OrderModal from '../order-modal/order-modal';
 import Modal from '../modal/modal';
 
+import { useAppDispatch } from '../../services/hooks';
 import { checkAuth } from '../../services/slices/auth-slice';
 
 import styles from './app.module.css';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
