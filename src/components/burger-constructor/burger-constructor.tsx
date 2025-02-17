@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useDrop } from 'react-dnd';
 
@@ -10,26 +9,26 @@ import BlankConstructorElement from '../blank-constructor-element/blank-construc
 import PriceBlock from '../price-block/price-block';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-
 import DataLoader from '../data-loader/DataLoader';
+
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { useGetIngredientsState } from '../../services/api/ingredients-api';
 import { useCreateOrderMutation } from '../../services/api/order-api';
 import { isAuth } from '../../services/slices/auth-slice';
 import { addBun, addIngredient, selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
-
 import { INGREDIENT_TYPE } from '../../utils/consts';
-import { DroppedIngredient, Ingredient, SelectedIngredient, SelectedIngredientIds } from '../../utils/types.ts';
+import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
+import { CreateOrderResponse } from '../../utils/api-types';
+import { DroppedIngredient, Ingredient, SelectedIngredient, SelectedIngredientIds } from '../../utils/types';
 
 import styles from './burger-constructor.module.css';
-import { BaseQueryFn, FetchArgs, TypedUseQueryHookResult } from '@reduxjs/toolkit/query/react';
-import { CreateOrderResponse } from '../../utils/api-types.ts';
 
 const BurgerConstructor = () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isUserAuth: boolean = useSelector(isAuth);
-  const selectedIngredientIds: SelectedIngredientIds = useSelector(selectedIngredientsSelector);
+  const isUserAuth: boolean = useAppSelector(isAuth);
+  const selectedIngredientIds: SelectedIngredientIds = useAppSelector(selectedIngredientsSelector);
   const [createOrder, order] = useCreateOrderMutation<TypedUseQueryHookResult<CreateOrderResponse, FetchArgs, BaseQueryFn>>();
   const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
 
@@ -59,11 +58,12 @@ const BurgerConstructor = () => {
     }
 
     const ids = [
+      selectedIngredientIds.bun,
       ...selectedIngredientIds.ingredients.map(selected => selected.id),
       selectedIngredientIds.bun,
     ] as string[];
 
-    createOrder(ids)
+    createOrder(ids);
   };
 
   const closeOrderDetails = () => {

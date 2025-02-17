@@ -11,9 +11,11 @@ type Props = {
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
+  headerTextClass?: string;
+  contentClass?: string;
 };
 
-const Modal = ({ title, onClose, children }: Props) => {
+const Modal = ({ title, onClose, children, headerTextClass, contentClass }: Props) => {
   useEffect(() => {
     const handleEscKeydown = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
 
@@ -24,13 +26,13 @@ const Modal = ({ title, onClose, children }: Props) => {
   return ReactDOM.createPortal(
     <>
       <div className={styles.modal}>
-        <div className={`${styles.header} ml-10 mr-10 mt-10`}>
-          <h2 className="text text_type_main-large">
+        <div className={styles.headerSection}>
+          <h2 className={headerTextClass || styles.headerText}>
             {title}
           </h2>
           <CloseIcon type="primary" className={styles.closeIcon} onClick={onClose} />
         </div>
-        <div className={styles.content}>
+        <div className={contentClass || styles.content}>
           {children}
         </div>
       </div>

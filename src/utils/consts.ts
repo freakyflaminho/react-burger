@@ -10,3 +10,9 @@ export const INGREDIENT_TITLE_RU = Object.freeze({
   MAIN: 'Начинки',
   DEFAULT: 'Другое',
 });
+
+export const ORDER_STATUS = Object.freeze({
+  created: 'Создан',
+  pending: 'Готовится',
+  done: 'Выполнен',
+});

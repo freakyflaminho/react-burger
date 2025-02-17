@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 
 import AppHeader from '../app-header/app-header';
@@ -15,21 +14,27 @@ import ResetPasswordPage from '../pages/reset-password-page/reset-password-page'
 import IngredientPage from '../pages/ingredient-page/ingredient-page';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrdersFeedPage from '../pages/orders-feed-page/orders-feed-page';
+import OrderPage from '../pages/order-page/order-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
+import OrderModal from '../order-modal/order-modal';
 import Modal from '../modal/modal';
 
+import { useAppDispatch } from '../../services/hooks';
 import { checkAuth } from '../../services/slices/auth-slice';
 
 import styles from './app.module.css';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
+  if (background) {
+    background.state = location;
+  }
 
-  const closeIngredientModal = () => {
+  const closeModal = () => {
     navigate(-1);
   };
 
@@ -46,14 +51,7 @@ const App = () => {
           element={<ConstructorPage />}
         />
 
-        <Route
-          path="/feed"
-          element={
-            <ProtectedRouteElement forAuth={true}>
-              <OrdersFeedPage />
-            </ProtectedRouteElement>
-          }
-        />
+        <Route path="/feed" element={<OrdersFeedPage />} />
 
         <Route
           path="/profile"
@@ -66,6 +64,15 @@ const App = () => {
           <Route index element={<ProfileEditPage />} />
           <Route path="orders" element={<ProfileOrdersPage />} />
         </Route>
+
+        <Route
+          path="/profile/orders/:number"
+          element={
+            <ProtectedRouteElement forAuth={true}>
+              <OrderPage />
+            </ProtectedRouteElement>
+          }
+        />
 
         <Route
           path="login"
@@ -109,6 +116,11 @@ const App = () => {
         />
 
         <Route
+          path="feed/:number"
+          element={<OrderPage />}
+        />
+
+        <Route
           path="*"
           element={<NotFoundPage />}
         />
@@ -116,10 +128,20 @@ const App = () => {
 
       {background && (
         <Routes>
-          <Route path="ingredients/:id" element={
-            <Modal onClose={closeIngredientModal} title="Детали ингредиента">
-              <IngredientDetails />
-            </Modal>}
+          <Route
+            path="ingredients/:id"
+            element={
+              <Modal onClose={closeModal} title="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>}
+          />
+          <Route
+            path="feed/:number"
+            element={<OrderModal onClose={closeModal} />}
+          />
+          <Route
+            path="profile/orders/:number"
+            element={<OrderModal onClose={closeModal} />}
           />
         </Routes>
       )}

@@ -1,4 +1,4 @@
-import { INGREDIENT_TYPE } from './consts.ts';
+import { INGREDIENT_TYPE, ORDER_STATUS } from './consts.ts';
 
 export type Ingredient = {
   _id: string;
@@ -13,6 +13,10 @@ export type Ingredient = {
   image_mobile: string;
   image_large: string;
 };
+
+export type IngredientWithCount = Ingredient & {
+  count: number;
+}
 
 export type SelectedIngredient = Ingredient & {
   posId: string;
@@ -33,6 +37,8 @@ export type ObjectMap<T> = {
 };
 
 export type IngredientType = keyof typeof INGREDIENT_TYPE;
+
+export type OrderStatusType = keyof typeof ORDER_STATUS;
 
 export type LoadingState = {
   data: {

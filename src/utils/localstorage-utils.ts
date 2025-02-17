@@ -2,6 +2,10 @@ export function getAccessToken() {
   return localStorage.getItem('accessToken');
 }
 
+export function getAccessTokenWithoutBearer() {
+  return getAccessToken()?.split('Bearer ')[1];
+}
+
 export function setAccessToken(accessToken: string) {
   localStorage.setItem('accessToken', accessToken);
 }

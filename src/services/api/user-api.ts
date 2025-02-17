@@ -4,11 +4,12 @@ import {
   LOGOUT_PATH,
   PASSWORD_CHANGE_PATH,
   PASSWORD_RESET_PATH,
+  REFRESH_TOKEN_PATH,
   REGISTER_PATH,
   USER_PATH,
 } from '../../utils/api';
 import { setAuth } from '../slices/auth-slice';
-import { getRefreshToken, removeTokens } from '../../utils/localstorage-utils';
+import { getRefreshToken, removeTokens, setTokens } from '../../utils/localstorage-utils';
 import {
   ChangePasswordRequest,
   ChangePasswordResponse,
@@ -16,6 +17,7 @@ import {
   LoginRequest,
   LoginResponse,
   LogoutResponse,
+  RefreshResponse,
   RegisterRequest,
   RegisterResponse,
   ResetPasswordRequest,
@@ -78,6 +80,27 @@ export const userApi = api.injectEndpoints({
         method: 'POST',
         body: passwordChangeData,
       }),
+    }),
+    refreshToken: builder.mutation<RefreshResponse, void>({
+      query: () => ({
+        url: REFRESH_TOKEN_PATH,
+        method: 'POST',
+        body: {
+          'token': getRefreshToken(),
+        },
+      }),
+      async onQueryStarted(_args, { queryFulfilled }) {
+        try {
+          const { data: { success, accessToken, refreshToken } } = await queryFulfilled;
+          if (success) {
+            setTokens(accessToken, refreshToken);
+          } else {
+            removeTokens();
+          }
+        } catch {
+          removeTokens();
+        }
+      },
     }),
   }),
 });

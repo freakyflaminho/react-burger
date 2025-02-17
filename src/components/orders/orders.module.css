@@ -1,0 +1,9 @@
+.header {
+  composes: text text_type_main-large pt-10 pb-5 from global;
+}
+
+.scrollableBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

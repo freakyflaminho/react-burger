@@ -1,22 +1,22 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import Tabs from '../tabs/tabs';
 import ScrollablePanel from '../panels/scrollable-panel/scrollable-panel';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
 
-import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
+import { useAppSelector } from '../../services/hooks';
 import { useGetIngredientsState } from '../../services/api/ingredients-api';
 import { selectedIngredientsSelector } from '../../services/slices/burger-constructor-slice';
-import { Ingredient, IngredientType, ObjectMap, SelectedIngredientIds } from '../../utils/types.ts';
+import { INGREDIENT_TITLE_RU, INGREDIENT_TYPE } from '../../utils/consts';
+import { Ingredient, IngredientType, ObjectMap, SelectedIngredientIds } from '../../utils/types';
 
 const BurgerIngredients = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const { data: { data: ingredients = [] } = {} } = useGetIngredientsState();
-  const selectedIngredientIds: SelectedIngredientIds = useSelector(selectedIngredientsSelector);
+  const selectedIngredientIds: SelectedIngredientIds = useAppSelector(selectedIngredientsSelector);
 
   const ingredientTypes = Object.keys(INGREDIENT_TYPE) as (IngredientType)[];
   const [activeTab, setActiveTab] = useState(ingredientTypes[0]);

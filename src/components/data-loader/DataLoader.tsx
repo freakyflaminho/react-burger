@@ -13,15 +13,15 @@ type Props = {
 const DataLoader = ({ data, onRetry, children }: Props) => {
 
   const {
-    data: { success } = {},
+    data: { success, message } = {},
     isLoading,
     isFetching,
     isError,
   } = data;
 
   return (
-    isLoading || isFetching ? <Loader /> :
-      isError || !success ? <ErrorMessage onRetry={onRetry} /> :
+    isError || (!success && message) ? <ErrorMessage onRetry={onRetry} /> :
+      isLoading || isFetching || data.data && (!success && !message) ? <Loader /> :
         children
   );
 };

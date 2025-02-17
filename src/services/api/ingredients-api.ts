@@ -12,6 +12,9 @@ export const ingredientsApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetIngredientsQuery } = ingredientsApi;
+export const {
+  useGetIngredientsQuery,
+  useLazyGetIngredientsQuery,
+} = ingredientsApi;
 
 export const useGetIngredientsState = ingredientsApi.endpoints.getIngredients.useQueryState;

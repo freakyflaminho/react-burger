@@ -1,0 +1,46 @@
+.topSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.centerSection {
+  max-height: 360px;
+  composes: mt-15 from global;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.bottomSection {
+  composes: mt-10 from global;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.name {
+  composes: text text_type_main-medium from global;
+}
+
+.status {
+  composes: text text_type_main-default from global;
+}
+
+.ingredientsHeader {
+  composes: text text_type_main-medium from global;
+}
+
+.doneStatus {
+  color: #00CCCC;
+}
+
+.createdDate {
+  composes: text text_type_main-default text_color_inactive from global;
+}
+
+.scrollableBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

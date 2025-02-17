@@ -1,6 +1,6 @@
 import { api } from './api';
 import { ORDER_PATH } from '../../utils/api';
-import { CreateOrderResponse } from '../../utils/api-types.ts';
+import { CreateOrderResponse, GetOrderResponse } from '../../utils/api-types';
 
 export const orderApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +11,17 @@ export const orderApi = api.injectEndpoints({
         body: { ingredients },
       }),
     }),
+    getOrder: builder.query<GetOrderResponse, number>({
+      query: (orderNumber) => ({
+        url: `${ORDER_PATH}/${orderNumber}`,
+      }),
+    }),
   }),
 });
 
-export const { useCreateOrderMutation } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useLazyGetOrderQuery,
+} = orderApi;
+
+export const useGetOrdersState = orderApi.endpoints.getOrder.useQueryState;
