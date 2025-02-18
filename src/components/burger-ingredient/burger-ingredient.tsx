@@ -31,6 +31,7 @@ const BurgerIngredient = ({ data, selectedCount, onClick }: Props) => {
     <div className={`${styles.ingredientCard} ${isDrag && styles.drag}`}
          onClick={handleOnClick}
          ref={dragRef}
+         data-testid={data._id}
     >
       {selectedCount > 0 && <Counter count={selectedCount} size="default" />}
       <img

@@ -91,7 +91,7 @@ const BurgerConstructor = () => {
 
   return (
     <section>
-      <div className={`${styles.constructor} ml-4 mt-25`} ref={dropTarget}>
+      <div className={`${styles.constructor} ml-4 mt-25`} ref={dropTarget} data-test="constructor-container">
         {selectedBun ?
           <ConstructorElement
             type="top"
@@ -146,7 +146,7 @@ const BurgerConstructor = () => {
         }
       </div>
 
-      <div className={`${styles.summaryBlock} mt-10`}>
+      <div className={`${styles.summaryBlock} mt-10`} data-test='total-price'>
         <PriceBlock
           price={totalPrice}
           textClass="text_type_digits-medium"
@@ -159,6 +159,7 @@ const BurgerConstructor = () => {
           size="large"
           onClick={handleCreateOrderClick}
           disabled={!isOrderAvailable}
+          data-test='create-order'
         >
           Оформить заказ
         </Button>

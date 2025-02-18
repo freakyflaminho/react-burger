@@ -7,7 +7,7 @@ type Props = {
 
 const ModalOverlay = ({ onClick }: Props) => {
   return (
-    <div className={styles.overlay} onClick={onClick} />
+    <div className={styles.overlay} onClick={onClick} data-test="modal-overlay" />
   );
 };
 
