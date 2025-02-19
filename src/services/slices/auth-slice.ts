@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isAccessTokenExists, isRefreshTokenExists } from '../../utils/localstorage-utils';
 
-const initialState = {
+export const initialState = {
   isAuth: false,
 };
 
@@ -34,3 +34,5 @@ export const {
 export const {
   isAuth,
 } = authSlice.selectors;
+
+export default authSlice.reducer;
