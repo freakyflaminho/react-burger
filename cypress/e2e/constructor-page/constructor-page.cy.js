@@ -24,154 +24,136 @@ describe('test constructor-page', () => {
   });
 
   it('should open ingredient card', () => {
-    cy.get('@main1').click();
-    cy.get('[data-test="modal"]').as('modal').should('be.visible');
-    cy.get('@modal').click();
+    cy.openIngredientModal('@main1');
+    cy.get('@modal').should('be.visible');
     cy.get('@ingredients').then((ingredients) => {
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
-      cy.get('@modal').find(`>:contains(${main1.name})`).should('exist');
+      cy.get('@modal').contains(main1.name).should('exist');
     });
   });
 
   it('should close ingredient card on close button click', () => {
-    cy.get('@main1').click();
-    cy.get('[data-test="modal"]').as('modal');
+    cy.openIngredientModal('@main1');
     cy.get('[data-test="modal-close"]').click();
     cy.get('@modal').should('not.exist');
   });
 
   it('should close ingredient card on ESC press', () => {
-    cy.get('@main1').click();
-    cy.get('[data-test="modal"]').as('modal');
+    cy.openIngredientModal('@main1');
     cy.get('body').type('{esc}');
     cy.get('@modal').should('not.exist');
   });
 
   it('should close ingredient card on modal overlay click', () => {
-    cy.get('@main1').click();
-    cy.get('[data-test="modal"]').as('modal');
+    cy.openIngredientModal('@main1');
     cy.get('[data-test="modal-overlay"]').click({ force: true });
     cy.get('@modal').should('not.exist');
   });
 
   it('should drag and drop bun correctly', () => {
-    cy.get('@bun1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@bun1', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun1 = ingredients.data.find(ingredient => ingredient._id === 'bun1');
       cy.get('@constructorContainer').find(`>:contains(${bun1.name})`).should('have.length', 2);
+      cy.getItemsWithText('@constructorContainer', bun1.name).should('have.length', 2);
     });
-    cy.get('@bun1').find('[class^="counter"]').contains(2);
+    cy.findItemWithClass('@bun1', 'counter').contains(2);
   });
 
   it('should replace chosen bun correctly', () => {
-    cy.get('@bun1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
-    cy.get('@bun2').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@bun1', '@constructorContainer');
+    cy.dragAndDropItem('@bun2', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun1 = ingredients.data.find(ingredient => ingredient._id === 'bun1');
       const bun2 = ingredients.data.find(ingredient => ingredient._id === 'bun2');
-      cy.get('@constructorContainer').find(`>:contains(${bun1.name})`).should('not.exist');
-      cy.get('@constructorContainer').find(`>:contains(${bun2.name})`).should('have.length', 2);
+      cy.getItemsWithText('@constructorContainer', bun1.name).should('not.exist');
+      cy.getItemsWithText('@constructorContainer', bun2.name).should('have.length', 2);
     });
-    cy.get('@bun1').find('[class^="counter"]').should('not.exist');
-    cy.get('@bun2').find('[class^="counter"]').contains(2);
+    cy.findItemWithClass('@bun1', 'counter').should('not.exist');
+    cy.findItemWithClass('@bun2', 'counter').contains(2);
   });
 
   it('should drag and drop main and sauce', () => {
-    cy.get('@sauce1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
-    cy.get('@main1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@sauce1', '@constructorContainer');
+    cy.dragAndDropItem('@main1', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const sauce1 = ingredients.data.find(ingredient => ingredient._id === 'sauce1');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
-      cy.get('@constructorContainer').find(`>:contains(${sauce1.name})`).should('have.length', 1);
-      cy.get('@constructorContainer').find(`>:contains(${main1.name})`).should('have.length', 1);
+      cy.getItemsWithText('@constructorContainer', sauce1.name).should('have.length', 1);
+      cy.getItemsWithText('@constructorContainer', main1.name).should('have.length', 1);
     });
-    cy.get('@sauce1').find('[class^="counter"]').contains(1);
-    cy.get('@main1').find('[class^="counter"]').contains(1);
+    cy.findItemWithClass('@sauce1', 'counter').contains(1);
+    cy.findItemWithClass('@main1', 'counter').contains(1);
   });
-
+  //
   it('should delete ingredients', () => {
-    cy.get('@sauce1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
-    cy.get('@main1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@sauce1', '@constructorContainer');
+    cy.dragAndDropItem('@main1', '@constructorContainer');
 
     cy.get('@constructorContainer').get('.constructor-element__action').first().click();
     cy.get('@ingredients').then((ingredients) => {
       const sauce1 = ingredients.data.find(ingredient => ingredient._id === 'sauce1');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
-      cy.get('@constructorContainer').find(`>:contains(${sauce1.name})`).should('not.exist');
-      cy.get('@constructorContainer').find(`>:contains(${main1.name})`).should('have.length', 1);
+      cy.getItemsWithText('@constructorContainer', sauce1.name).should('not.exist');
+      cy.getItemsWithText('@constructorContainer', main1.name).should('have.length', 1);
     });
 
     cy.get('@constructorContainer').get('.constructor-element__action').first().click();
     cy.get('@ingredients').then((ingredients) => {
       const sauce1 = ingredients.data.find(ingredient => ingredient._id === 'sauce1');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
-      cy.get('@constructorContainer').find(`>:contains(${sauce1.name})`).should('not.exist');
-      cy.get('@constructorContainer').find(`>:contains(${main1.name})`).should('not.exist');
+      cy.getItemsWithText('@constructorContainer', sauce1.name).should('not.exist');
+      cy.getItemsWithText('@constructorContainer', main1.name).should('not.exist');
     });
   });
 
   it('should enable and disable order button', () => {
     cy.get('@createOrder').should('have.attr', 'disabled');
 
-    cy.get('@bun1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@bun1', '@constructorContainer');
     cy.get('@createOrder').should('have.attr', 'disabled');
 
-    cy.get('@main1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@main1', '@constructorContainer');
     cy.get('@createOrder').should('not.have.attr', 'disabled');
 
-    cy.get('@sauce1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@sauce1', '@constructorContainer');
     cy.get('@createOrder').should('not.have.attr', 'disabled');
 
-    cy.get('@constructorContainer').get('.constructor-element__action').eq(1).click();
+    cy.removeItemFromConstructor(1);
     cy.get('@createOrder').should('not.have.attr', 'disabled');
 
-    cy.get('@constructorContainer').get('.constructor-element__action').eq(1).click();
+    cy.removeItemFromConstructor(1);
     cy.get('@createOrder').should('have.attr', 'disabled');
   });
 
   it('should calculate total price', () => {
-    cy.get('@bun1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@bun1', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun1 = ingredients.data.find(ingredient => ingredient._id === 'bun1');
       cy.get('@totalPrice').should('contain.text', bun1.price * 2);
     });
 
-    cy.get('@bun2').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@bun2', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun2 = ingredients.data.find(ingredient => ingredient._id === 'bun2');
       cy.get('@totalPrice').should('contain.text', bun2.price * 2);
     });
 
-    cy.get('@main1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@main1', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun2 = ingredients.data.find(ingredient => ingredient._id === 'bun2');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
       cy.get('@totalPrice').should('contain.text', bun2.price * 2 + main1.price);
     });
 
-    cy.get('@main1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@main1', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun2 = ingredients.data.find(ingredient => ingredient._id === 'bun2');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
       cy.get('@totalPrice').should('contain.text', bun2.price * 2 + main1.price * 2);
     });
 
-    cy.get('@sauce1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@sauce1', '@constructorContainer');
     cy.get('@ingredients').then((ingredients) => {
       const bun2 = ingredients.data.find(ingredient => ingredient._id === 'bun2');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
@@ -179,7 +161,7 @@ describe('test constructor-page', () => {
       cy.get('@totalPrice').should('contain.text', bun2.price * 2 + main1.price * 2 + sauce1.price);
     });
 
-    cy.get('@constructorContainer').get('.constructor-element__action').eq(1).click();
+    cy.removeItemFromConstructor(1);
     cy.get('@ingredients').then((ingredients) => {
       const bun2 = ingredients.data.find(ingredient => ingredient._id === 'bun2');
       const main1 = ingredients.data.find(ingredient => ingredient._id === 'main1');
@@ -189,12 +171,11 @@ describe('test constructor-page', () => {
   });
 
   it('should create order', () => {
-    cy.get('@bun1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
-    cy.get('@sauce1').trigger('dragstart');
-    cy.get('@constructorContainer').trigger('drop');
+    cy.dragAndDropItem('@bun1', '@constructorContainer');
+    cy.dragAndDropItem('@sauce1', '@constructorContainer');
     cy.get('@createOrder').click();
     cy.get('[data-test="modal"]').as('modal');
+
     cy.get('@modal').should('be.visible');
     cy.get('@order').then(order => {
       cy.get('@modal').contains(order.order.number);
