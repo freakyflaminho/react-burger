@@ -1,7 +1,7 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { SelectedIngredientId, SelectedIngredientIds } from '../../utils/types.ts';
+import { SelectedIngredientId, SelectedIngredientIds } from '../../utils/types';
 
-const initialState: SelectedIngredientIds = {
+export const initialState: SelectedIngredientIds = {
   bun: null,
   ingredients: [],
 };
@@ -51,3 +51,5 @@ export const {
 export const {
   selectedIngredientsSelector,
 } = burgerConstructorSlice.selectors;
+
+export default burgerConstructorSlice.reducer;

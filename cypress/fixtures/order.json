@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "name": "Order name",
+  "order": {
+    "ingredients": [
+      {
+        "_id": "bun1",
+        "name": "Булка 1",
+        "type": "bun",
+        "proteins": 44,
+        "fat": 26,
+        "carbohydrates": 85,
+        "calories": 643,
+        "price": 988,
+        "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+        "__v": 0
+      },
+      {
+        "_id": "saunce1",
+        "name": "Соус 1",
+        "type": "sauce",
+        "proteins": 50,
+        "fat": 22,
+        "carbohydrates": 11,
+        "calories": 14,
+        "price": 80,
+        "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+        "__v": 0
+      },
+      {
+        "_id": "bun1",
+        "name": "Булка 1",
+        "type": "bun",
+        "proteins": 44,
+        "fat": 26,
+        "carbohydrates": 85,
+        "calories": 643,
+        "price": 988,
+        "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+        "__v": 0
+      }
+    ],
+    "_id": "1",
+    "owner": {
+      "name": "test",
+      "email": "test@test.com",
+      "createdAt": "2025-01-16T15:15:54.634Z",
+      "updatedAt": "2025-01-26T18:59:55.312Z"
+    },
+    "status": "done",
+    "name": "Order name",
+    "createdAt": "2025-02-18T12:19:01.005Z",
+    "updatedAt": "2025-02-18T12:19:02.289Z",
+    "number": 12345,
+    "price": 9999
+  }
+}

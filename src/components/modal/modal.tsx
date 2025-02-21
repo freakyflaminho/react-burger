@@ -25,12 +25,14 @@ const Modal = ({ title, onClose, children, headerTextClass, contentClass }: Prop
 
   return ReactDOM.createPortal(
     <>
-      <div className={styles.modal}>
+      <div className={styles.modal} data-test="modal">
         <div className={styles.headerSection}>
           <h2 className={headerTextClass || styles.headerText}>
             {title}
           </h2>
-          <CloseIcon type="primary" className={styles.closeIcon} onClick={onClose} />
+          <div data-test="modal-close">
+            <CloseIcon type="primary" className={styles.closeIcon} onClick={onClose} />
+          </div>
         </div>
         <div className={contentClass || styles.content}>
           {children}
